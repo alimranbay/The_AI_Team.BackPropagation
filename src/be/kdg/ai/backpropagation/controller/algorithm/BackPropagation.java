@@ -63,6 +63,6 @@ public class BackPropagation implements NeuralNetwork {
             hiddenCells[i] = 0;
         }
 
-
+        return null;
     }
 }

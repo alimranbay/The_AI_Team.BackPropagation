@@ -1,0 +1,33 @@
+
+
+
+.input {
+    -fx-background-color: indianred;
+    -fx-border-style: solid;
+    -fx-border-color: darkgreen;
+    -fx-border-width: 3px;
+    -fx-font-weight: bold;
+    -fx-text-fill: whitesmoke;
+}
+
+.hidden{
+    -fx-background-color: cornflowerblue;
+    -fx-border-style: solid;
+    -fx-border-color: darkgreen;
+    -fx-border-width: 3px;
+    -fx-font-weight: bold;
+    -fx-text-fill: whitesmoke;
+}
+
+.grid{
+    -fx-background-color: grey;
+    -fx-font-family: Arial, Helvetica, sans-serif;
+    -fx-text-fill: wheat;
+}
+
+.label{
+    -fx-text-fill: whitesmoke;
+    -fx-font-family: Arial, Helvetica, sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
