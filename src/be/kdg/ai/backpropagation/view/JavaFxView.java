@@ -1,4 +1,4 @@
-package be.kdg.ai.backpropagation;
+package be.kdg.ai.backpropagation.view;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -13,9 +13,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
- * Created by Ali Imran on 8/12/2015.
+ * This is a test class
  */
-public class Demo extends Application{
+public class JavaFxView extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -23,7 +23,7 @@ public class Demo extends Application{
         primaryStage.setTitle("Neurale netwerk");
         GridPane grid = new GridPane();
         Scene scene = new Scene(grid, 1000, 600);
-        scene.getStylesheets().add("/css/layout.css");
+        scene.getStylesheets().add("/be/kdg/ai/backpropagation/view/css/layout.css");
 
         grid.setHgap(10);
         grid.setVgap(10);
@@ -206,9 +206,5 @@ public class Demo extends Application{
         hbMid.getChildren().addAll(labelbt2, forLabel2);
 
         return hbMid;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
