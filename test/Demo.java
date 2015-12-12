@@ -16,6 +16,6 @@ import javafx.stage.Stage;
  */
 public class Demo {
     public static void main(String[] args) {
-        JavaFxView.launch(args);
+        JavaFxView.launch(JavaFxView.class, args);
     }
 }

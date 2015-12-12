@@ -1,5 +1,7 @@
 package be.kdg.ai.backpropagation.controller.algorithm;
 
+import java.util.Random;
+
 /**
  * A backpropagetion algorithm.
  */
@@ -36,14 +38,23 @@ public class BackPropagation implements NeuralNetwork {
 
     //endregion
 
-    public BackPropagation(int numberOfHiddenCells, int numberOfOutputCells){
+    /**
+     *
+     * @param numberOfHiddenCells .
+     * @param numberOfOutputCells .
+     * @param targets the number of targets should be equal to @param numberOfOutputCells.
+     */
+    public BackPropagation(int numberOfHiddenCells, int numberOfOutputCells, double[] targets){
         this.numberOfHiddenCells = numberOfHiddenCells;
         this.numberOfOutputCells = numberOfOutputCells;
+        this.targets = targets;
 
         initialize();
     }
 
     private void initialize(){
+        Random random = new Random();
+
         hiddenCells = new double[numberOfHiddenCells];
         outputCells = new double[numberOfOutputCells];
 
@@ -54,15 +65,75 @@ public class BackPropagation implements NeuralNetwork {
         hBiases = new double[numberOfHiddenCells];
         hoWeights = new double[numberOfHiddenCells][numberOfOutputCells];
         oBiases = new double[numberOfOutputCells];
-        targets = new double[numberOfOutputCells];
-    }
 
-    public double[] computeOutputs(){
-        // initialize hidden cells
         for (int i = 0; i < numberOfHiddenCells; i++) {
-            hiddenCells[i] = 0;
+            hBiases[i] = random.nextDouble() / 10;
+            oBiases[i] = random.nextDouble() / 10;
         }
 
-        return null;
+        for (int i = 0; i < numberOfInputCells; i++) {
+            for (int j = 0; j < numberOfHiddenCells; j++)
+                ihWeights[i][j] = random.nextDouble() / 100;
+        }
+
+        for (int i = 0; i < numberOfHiddenCells; i++) {
+            for (int j = 0; j < numberOfOutputCells; j++)
+                hoWeights[i][j] = random.nextDouble() / 100;
+        }
     }
+
+    @Override
+    public double[] computeOutputs(){
+        // initialize hidden cells
+        for (int i = 0; i < numberOfHiddenCells; i++)
+            hiddenCells[i] = 0;
+
+        for (int i = 0; i < numberOfHiddenCells; i++) {
+            for (int j = 0; j < numberOfInputCells; j++)
+                hiddenCells[i] += (inputCells[j] * ihWeights[j][i]);
+            hiddenCells[i] += hBiases[i];
+        }
+
+        double[] tempHiddens = new double[numberOfHiddenCells];
+        for (int i = 0; i < numberOfHiddenCells; i++)
+            tempHiddens[i] = hyperTanFunction(hiddenCells[i]);
+
+        for (int i = 0; i < numberOfOutputCells; i++) {
+            for (int j = 0; j < numberOfHiddenCells; j++)
+                outputCells[i] += (tempHiddens[j] * hoWeights[j][i]);
+            outputCells[i] += oBiases[i];
+        }
+
+        for (int i = 0; i < numberOfOutputCells; i++)
+            outputCells[i] = sigmoidFunction(outputCells[i]);
+
+        return outputCells;
+    }
+
+    @Override
+    public double[] computeErrors() {
+        for (int i = 0; i < numberOfOutputCells; i++) {
+            errors[i] = Math.abs(targets[i] - outputCells[i]);
+        }
+        return errors;
+    }
+
+    public static double hyperTanFunction(double x)
+    {
+        if (x < -45.0)
+            return -1.0;
+        if (x > 45.0)
+            return 1.0;
+        return Math.tanh(x);
+    }
+
+    public static double sigmoidFunction(double x)
+    {
+        if (x < -45.0)
+            return 0.0;
+        if (x > 45.0)
+            return 1.0;
+        return 1.0/(1.0 + Math.exp(-x));
+    }
+
 }
