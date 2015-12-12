@@ -13,4 +13,6 @@ public interface NeuralNetwork {
     double[] getInputCells();
 
     double[] getTargets();
+
+    double[] getHiddenCells();
 }

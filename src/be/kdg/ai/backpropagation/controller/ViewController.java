@@ -12,12 +12,27 @@ public class ViewController {
         this.neuralNetwork = neuralNetwork;
     }
 
-    public double[] getInputValues(){
+    public void initializeNetwork() {
         neuralNetwork.initialize();
+    }
+
+    public double[] getInputValues(){
         return neuralNetwork.getInputCells();
     }
 
     public double[] getTargetValues() {
         return neuralNetwork.getTargets();
+    }
+
+    public double[] getHiddenValues() {
+        return neuralNetwork.getHiddenCells();
+    }
+
+    public double[] getOutputCells() {
+        return neuralNetwork.computeOutputs();
+    }
+
+    public double[] getErrors() {
+        return neuralNetwork.computeErrors();
     }
 }

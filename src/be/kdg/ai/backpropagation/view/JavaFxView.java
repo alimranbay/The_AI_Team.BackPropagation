@@ -21,6 +21,10 @@ public class JavaFxView extends Application{
     private static ViewController viewController;
     private static Label[] inputLabels;
     private static Label[] targetLabels;
+    private static Label[] hiddenLabels;
+    private static Label[] ihLabels;
+    private static Label[] hoLabels;
+    private static Label[] outputLabels;
 
     public void setViewController(ViewController viewController) {
         JavaFxView.viewController = viewController;
@@ -61,20 +65,24 @@ public class JavaFxView extends Application{
         grid.add(createTargets(),0,6);
         grid.add(createTextField(),0,7);
 
-        initBtn.setOnMouseClicked(event -> initializeInputAndTargets());
+        initBtn.setOnMouseClicked(event -> initialize());
+//TODO:        startBtn.setOnMouseClicked(event -> );
 
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void initializeInputAndTargets() {
+    private void initialize() {
+        viewController.initializeNetwork();
         double[] inputValues = viewController.getInputValues();
         for (int i = 0; i < inputValues.length; i++)
             inputLabels[i].setText(inputValues[i] + "");
         double[] targetValues = viewController.getTargetValues();
         for (int i = 0; i < targetValues.length; i++)
             targetLabels[i].setText(targetValues[i] + "");
-
+        double[] hiddenValues = viewController.getHiddenValues();
+        for (int i = 0; i < hiddenValues.length; i++)
+            hiddenLabels[i].setText(hiddenValues[i] + "");
     }
 
     private HBox createTargets() {
@@ -119,16 +127,19 @@ public class JavaFxView extends Application{
     }
 
     private HBox createHiddenCells(){
+        final int NUMBER_OF_HIDDEN_CELLS = 4;
         HBox hbMid2 = new HBox(10);
         hbMid2.setAlignment(Pos.CENTER);
         hbMid2.setMinWidth(980);
 
+        hiddenLabels = new Label[NUMBER_OF_HIDDEN_CELLS];
 
-        for (int i = 1; i < 5; i++){
+        for (int i = 1; i < NUMBER_OF_HIDDEN_CELLS + 1; i++){
             Label temp = new Label("Hidden Cell "+ String.valueOf(i));
             temp.setPadding(new Insets(20, 40, 20, 40));
             hbMid2.getChildren().add(temp);
             temp.getStyleClass().add("input");
+            hiddenLabels[i-1] = temp;
         }
 
         return hbMid2;

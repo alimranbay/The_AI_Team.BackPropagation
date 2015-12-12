@@ -149,4 +149,9 @@ public class BackPropagation implements NeuralNetwork {
     public double[] getTargets() {
         return targets;
     }
+
+    @Override
+    public double[] getHiddenCells() {
+        return hiddenCells;
+    }
 }
