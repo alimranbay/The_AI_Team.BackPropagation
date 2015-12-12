@@ -42,12 +42,10 @@ public class BackPropagation implements NeuralNetwork {
      *
      * @param numberOfHiddenCells .
      * @param numberOfOutputCells .
-     * @param targets the number of targets should be equal to @param numberOfOutputCells.
      */
-    public BackPropagation(int numberOfHiddenCells, int numberOfOutputCells, double[] targets){
+    public BackPropagation(int numberOfHiddenCells, int numberOfOutputCells){
         this.numberOfHiddenCells = numberOfHiddenCells;
         this.numberOfOutputCells = numberOfOutputCells;
-        this.targets = targets;
 
         initialize();
     }
@@ -66,10 +64,16 @@ public class BackPropagation implements NeuralNetwork {
         hoWeights = new double[numberOfHiddenCells][numberOfOutputCells];
         oBiases = new double[numberOfOutputCells];
 
-        for (int i = 0; i < numberOfHiddenCells; i++) {
+        errors = new double[numberOfOutputCells];
+
+        targets = new double[numberOfOutputCells];
+
+        for (int i = 0; i < numberOfOutputCells; i++)
+            targets[i] = random.nextDouble();
+        for (int i = 0; i < numberOfHiddenCells; i++)
             hBiases[i] = random.nextDouble() / 10;
+        for (int i = 0; i < numberOfOutputCells; i++)
             oBiases[i] = random.nextDouble() / 10;
-        }
 
         for (int i = 0; i < numberOfInputCells; i++) {
             for (int j = 0; j < numberOfHiddenCells; j++)
@@ -112,9 +116,8 @@ public class BackPropagation implements NeuralNetwork {
 
     @Override
     public double[] computeErrors() {
-        for (int i = 0; i < numberOfOutputCells; i++) {
+        for (int i = 0; i < numberOfOutputCells; i++)
             errors[i] = Math.abs(targets[i] - outputCells[i]);
-        }
         return errors;
     }
 
@@ -136,4 +139,13 @@ public class BackPropagation implements NeuralNetwork {
         return 1.0/(1.0 + Math.exp(-x));
     }
 
+    @Override
+    public double[] getInputCells() {
+        return inputCells;
+    }
+
+    @Override
+    public double[] getTargets() {
+        return targets;
+    }
 }

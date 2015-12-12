@@ -7,4 +7,8 @@ public interface NeuralNetwork {
     double[] computeOutputs();
 
     double[] computeErrors();
+
+    double[] getInputCells();
+
+    double[] getTargets();
 }

@@ -1,5 +1,6 @@
 package be.kdg.ai.backpropagation.view;
 
+import be.kdg.ai.backpropagation.controller.ViewController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,9 +14,18 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
- * This is a test class
+ * This is class starts the JavaFX application.
  */
 public class JavaFxView extends Application{
+    // http://stackoverflow.com/questions/15160410/usage-of-javafx-platform-runlater-and-access-to-ui-from-a-different-thread?lq=1
+    private static ViewController viewController;
+    private static Label[] inputLabels;
+    private static Label[] targetLabels;
+
+    public void setViewController(ViewController viewController) {
+        JavaFxView.viewController = viewController;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -42,42 +52,73 @@ public class JavaFxView extends Application{
         hbTop.getChildren().add(initBtn);
         hbTop.getChildren().add(startBtn);
 
-
-        Label label = new Label("---- Targets ----");
-        label.getStyleClass().add("label");
-        label.setAlignment(Pos.CENTER);
-        label.setMinWidth(980);
-
         grid.add(hbTop, 0, 0);
         grid.add(createInputCells(),0,1);
         grid.add(createInputToHidden(),0,2);
         grid.add(createHiddenCells(),0,3);
         grid.add(createHiddenToOutput(),0,4);
         grid.add(createOutputCells(),0,5);
-        grid.add(label,0,6);
+        grid.add(createTargets(),0,6);
         grid.add(createTextField(),0,7);
 
+        initBtn.setOnMouseClicked(event -> initializeInputAndTargets());
 
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public HBox createInputCells(){
+    private void initializeInputAndTargets() {
+        double[] inputValues = viewController.getInputValues();
+        for (int i = 0; i < inputValues.length; i++)
+            inputLabels[i].setText(inputValues[i] + "");
+        double[] targetValues = viewController.getTargetValues();
+        for (int i = 0; i < targetValues.length; i++)
+            targetLabels[i].setText(targetValues[i] + "");
+
+    }
+
+    private HBox createTargets() {
+        HBox hBox = new HBox(200);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setMinWidth(980);
+
+        Label label = new Label("---- Targets ----");
+        label.getStyleClass().add("label");
+
+        targetLabels = new Label[2];
+        targetLabels[0] = new Label("");
+        targetLabels[0].getStyleClass().add("label");
+        targetLabels[1] = new Label("");
+        targetLabels[0].getStyleClass().add("label");
+
+        hBox.getChildren().add(targetLabels[0]);
+        hBox.getChildren().add(label);
+        hBox.getChildren().add(targetLabels[1]);
+
+        return hBox;
+    }
+
+    private HBox createInputCells(){
+        final int NUMBER_OF_INPUTS = 3;
+        inputLabels = new Label[NUMBER_OF_INPUTS];
+
         HBox hbMid = new HBox(200);
         hbMid.setAlignment(Pos.CENTER);
         hbMid.setMinWidth(980);
 
-        for (int i = 1; i < 4; i++){
+        for (int i = 1; i < NUMBER_OF_INPUTS + 1; i++){
             Label temp = new Label("Input "+ String.valueOf(i));
             temp.setPadding(new Insets(20, 20, 20, 20));
             hbMid.getChildren().add(temp);
             temp.getStyleClass().add("input");
+
+            inputLabels[i-1] = temp;
         }
 
         return hbMid;
     }
 
-    public HBox createHiddenCells(){
+    private HBox createHiddenCells(){
         HBox hbMid2 = new HBox(10);
         hbMid2.setAlignment(Pos.CENTER);
         hbMid2.setMinWidth(980);
@@ -93,7 +134,7 @@ public class JavaFxView extends Application{
         return hbMid2;
     }
 
-    public HBox createOutputCells(){
+    private HBox createOutputCells(){
         HBox hbMid3 = new HBox(230);
         hbMid3.setAlignment(Pos.CENTER);
         hbMid3.setMinWidth(980);
@@ -108,7 +149,7 @@ public class JavaFxView extends Application{
         return hbMid3;
     }
 
-    public HBox createInputToHidden(){
+    private HBox createInputToHidden(){
         HBox hbMid = new HBox(50);
         hbMid.setAlignment(Pos.CENTER);
         hbMid.setMinWidth(980);
@@ -145,7 +186,7 @@ public class JavaFxView extends Application{
 
     }
 
-    public HBox createHiddenToOutput(){
+    private HBox createHiddenToOutput(){
         HBox hbMid = new HBox(10);
         hbMid.setAlignment(Pos.CENTER);
         hbMid.setMinWidth(980);
@@ -190,7 +231,7 @@ public class JavaFxView extends Application{
 
     }
 
-    public HBox createTextField(){
+    private HBox createTextField(){
         HBox hbMid = new HBox(20);
         hbMid.setAlignment(Pos.CENTER);
         hbMid.setMinWidth(980);
