@@ -13,6 +13,7 @@ public class ViewController {
     }
 
     public double[] getInputValues(){
+        neuralNetwork.initialize();
         return neuralNetwork.getInputCells();
     }
 

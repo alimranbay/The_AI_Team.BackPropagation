@@ -22,7 +22,7 @@ public class Demo {
     public static void main(String[] args) {
         NeuralNetwork neuralNetwork = new BackPropagation(4, 2);
         Controller controller = new Controller(neuralNetwork);
-        controller.startNeuralNetwork();
+//        controller.startNeuralNetwork();
 
         ViewController viewController = new ViewController(neuralNetwork);
         JavaFxView javaFxView = new JavaFxView();

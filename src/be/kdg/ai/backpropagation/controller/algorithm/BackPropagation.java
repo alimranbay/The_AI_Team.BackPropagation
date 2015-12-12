@@ -50,7 +50,8 @@ public class BackPropagation implements NeuralNetwork {
         initialize();
     }
 
-    private void initialize(){
+    @Override
+    public void initialize(){
         Random random = new Random();
 
         hiddenCells = new double[numberOfHiddenCells];
