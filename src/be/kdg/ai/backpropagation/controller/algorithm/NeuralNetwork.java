@@ -15,4 +15,10 @@ public interface NeuralNetwork {
     double[] getTargets();
 
     double[] getHiddenCells();
+
+    public double[][] getIhWeights();
+
+
+    public double[][] getHoWeights();
+
 }

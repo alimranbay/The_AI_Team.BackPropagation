@@ -94,10 +94,12 @@ public class BackPropagation implements NeuralNetwork {
             hiddenCells[i] = 0;
 
         for (int i = 0; i < numberOfHiddenCells; i++) {
-            for (int j = 0; j < numberOfInputCells; j++)
+            for (int j = 0; j < numberOfInputCells; j++){
                 hiddenCells[i] += (inputCells[j] * ihWeights[j][i]);
+            }
             hiddenCells[i] += hBiases[i];
         }
+
 
         double[] tempHiddens = new double[numberOfHiddenCells];
         for (int i = 0; i < numberOfHiddenCells; i++)
@@ -153,5 +155,15 @@ public class BackPropagation implements NeuralNetwork {
     @Override
     public double[] getHiddenCells() {
         return hiddenCells;
+    }
+
+    @Override
+    public double[][] getIhWeights() {
+        return ihWeights;
+    }
+
+    @Override
+    public double[][] getHoWeights() {
+        return hoWeights;
     }
 }

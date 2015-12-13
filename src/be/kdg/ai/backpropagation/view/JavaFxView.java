@@ -13,6 +13,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 /**
  * This is class starts the JavaFX application.
  */
@@ -22,8 +24,8 @@ public class JavaFxView extends Application{
     private static Label[] inputLabels;
     private static Label[] targetLabels;
     private static Label[] hiddenLabels;
-    private static Label[] ihLabels;
-    private static Label[] hoLabels;
+    private static ArrayList<Label> ihLabels = new ArrayList<>();
+    private static ArrayList<Label> hoLabels = new ArrayList<>();
     private static Label[] outputLabels;
 
     public void setViewController(ViewController viewController) {
@@ -66,7 +68,7 @@ public class JavaFxView extends Application{
         grid.add(createTextField(),0,7);
 
         initBtn.setOnMouseClicked(event -> initialize());
-//TODO:        startBtn.setOnMouseClicked(event -> );
+        startBtn.setOnMouseClicked(event -> startBackProp());
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -85,6 +87,38 @@ public class JavaFxView extends Application{
             hiddenLabels[i].setText(hiddenValues[i] + "");
     }
 
+    private void startBackProp(){
+        double[][] iHValues = viewController.getIhWeights();
+        ArrayList<Double> tempIHValues = new ArrayList<>();
+
+        for(int i = 0; i < inputLabels.length; i++){
+            for(int j = 0; j < hiddenLabels.length; j++){
+               tempIHValues.add(iHValues[i][j]);
+            }
+        }
+
+        for(int i = 0; i < tempIHValues.size();i++){
+            ihLabels.get(i).setText(String.valueOf(tempIHValues.get(i)));
+        }
+
+        double[][] HoValues = viewController.getHoWeights();
+        ArrayList<Double> tempHoValues = new ArrayList<>();
+        for(int i = 0; i < hiddenLabels.length; i++){
+            for(int j = 0; j < outputLabels.length; j++){
+                tempHoValues.add(HoValues[i][j]);
+            }
+        }
+
+        for(int i = 0; i < tempHoValues.size();i++){
+            hoLabels.get(i).setText(String.valueOf(tempHoValues.get(i)));
+        }
+
+        double[] outputValues = viewController.getOutputCells();
+        for (int i = 0; i < outputValues.length; i++)
+            outputLabels[i].setText(outputValues[i] + "");
+
+
+    }
     private HBox createTargets() {
         HBox hBox = new HBox(200);
         hBox.setAlignment(Pos.CENTER);
@@ -146,15 +180,18 @@ public class JavaFxView extends Application{
     }
 
     private HBox createOutputCells(){
+        final int NUMBER_OF_OUTPUT_CELLS = 2;
         HBox hbMid3 = new HBox(230);
         hbMid3.setAlignment(Pos.CENTER);
         hbMid3.setMinWidth(980);
 
-        for (int i = 1; i < 3; i++){
+        outputLabels = new Label[NUMBER_OF_OUTPUT_CELLS];
+        for (int i = 1; i < NUMBER_OF_OUTPUT_CELLS+1; i++){
             Label temp = new Label("Output Cell "+ String.valueOf(i));
             temp.setPadding(new Insets(20, 40, 20, 40));
             hbMid3.getChildren().add(temp);
             temp.getStyleClass().add("input");
+            outputLabels[i-1] = temp;
         }
 
         return hbMid3;
@@ -171,6 +208,7 @@ public class JavaFxView extends Application{
             temp.setPadding(new Insets(20, 10, 20, 10));
             h1.getChildren().add(temp);
             temp.getStyleClass().add("hidden");
+            ihLabels.add(temp);
         }
 
         HBox h2 = new HBox(15);
@@ -179,6 +217,7 @@ public class JavaFxView extends Application{
             temp.setPadding(new Insets(20, 10, 20, 10));
             h2.getChildren().add(temp);
             temp.getStyleClass().add("hidden");
+            ihLabels.add(temp);
         }
 
         HBox h3 = new HBox(15);
@@ -187,6 +226,7 @@ public class JavaFxView extends Application{
             temp.setPadding(new Insets(20, 10, 20, 10));
             h3.getChildren().add(temp);
             temp.getStyleClass().add("hidden");
+            ihLabels.add(temp);
         }
 
         hbMid.getChildren().add(h1);
@@ -208,6 +248,7 @@ public class JavaFxView extends Application{
             temp.setPadding(new Insets(20, 10, 20, 10));
             h1.getChildren().add(temp);
             temp.getStyleClass().add("hidden");
+            hoLabels.add(temp);
         }
 
         HBox h2 = new HBox(45);
@@ -216,6 +257,8 @@ public class JavaFxView extends Application{
             temp.setPadding(new Insets(20, 10, 20, 10));
             h2.getChildren().add(temp);
             temp.getStyleClass().add("hidden");
+            hoLabels.add(temp);
+
         }
 
         HBox h3 = new HBox(45);
@@ -224,6 +267,8 @@ public class JavaFxView extends Application{
             temp.setPadding(new Insets(20, 10, 20, 10));
             h3.getChildren().add(temp);
             temp.getStyleClass().add("hidden");
+            hoLabels.add(temp);
+
         }
 
         HBox h4 = new HBox(45);
@@ -232,6 +277,8 @@ public class JavaFxView extends Application{
             temp.setPadding(new Insets(20, 10, 20, 10));
             h4.getChildren().add(temp);
             temp.getStyleClass().add("hidden");
+            hoLabels.add(temp);
+
         }
         hbMid.getChildren().add(h1);
         hbMid.getChildren().add(h2);

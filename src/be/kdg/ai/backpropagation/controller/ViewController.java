@@ -32,6 +32,14 @@ public class ViewController {
         return neuralNetwork.computeOutputs();
     }
 
+    public double[][] getIhWeights() {
+        return neuralNetwork.getIhWeights();
+    }
+
+    public double[][] getHoWeights() {
+        return neuralNetwork.getHoWeights();
+    }
+
     public double[] getErrors() {
         return neuralNetwork.computeErrors();
     }
