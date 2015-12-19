@@ -1,11 +1,11 @@
-package be.kdg.ai.backpropagation.controller.algorithm;
+package be.kdg.ai.backpropagation.model;
 
 import java.util.Random;
 
 /**
  * A backpropagetion algorithm.
  */
-public class BackPropagation implements NeuralNetwork {
+public class BackPropagationNetwork implements NeuralNetwork {
 
     //region Fields
 
@@ -43,11 +43,11 @@ public class BackPropagation implements NeuralNetwork {
      * @param numberOfHiddenCells .
      * @param numberOfOutputCells .
      */
-    public BackPropagation(int numberOfHiddenCells, int numberOfOutputCells){
+    public BackPropagationNetwork(int numberOfHiddenCells, int numberOfOutputCells){
         this.numberOfHiddenCells = numberOfHiddenCells;
         this.numberOfOutputCells = numberOfOutputCells;
 
-        initialize();
+//        initialize();
     }
 
     @Override
@@ -88,61 +88,6 @@ public class BackPropagation implements NeuralNetwork {
     }
 
     @Override
-    public double[] computeOutputs(){
-        // initialize hidden cells
-        for (int i = 0; i < numberOfHiddenCells; i++)
-            hiddenCells[i] = 0;
-
-        for (int i = 0; i < numberOfHiddenCells; i++) {
-            for (int j = 0; j < numberOfInputCells; j++){
-                hiddenCells[i] += (inputCells[j] * ihWeights[j][i]);
-            }
-            hiddenCells[i] += hBiases[i];
-        }
-
-
-        double[] tempHiddens = new double[numberOfHiddenCells];
-        for (int i = 0; i < numberOfHiddenCells; i++)
-            tempHiddens[i] = hyperTanFunction(hiddenCells[i]);
-
-        for (int i = 0; i < numberOfOutputCells; i++) {
-            for (int j = 0; j < numberOfHiddenCells; j++)
-                outputCells[i] += (tempHiddens[j] * hoWeights[j][i]);
-            outputCells[i] += oBiases[i];
-        }
-
-        for (int i = 0; i < numberOfOutputCells; i++)
-            outputCells[i] = sigmoidFunction(outputCells[i]);
-
-        return outputCells;
-    }
-
-    @Override
-    public double[] computeErrors() {
-        for (int i = 0; i < numberOfOutputCells; i++)
-            errors[i] = Math.abs(targets[i] - outputCells[i]);
-        return errors;
-    }
-
-    public static double hyperTanFunction(double x)
-    {
-        if (x < -45.0)
-            return -1.0;
-        if (x > 45.0)
-            return 1.0;
-        return Math.tanh(x);
-    }
-
-    public static double sigmoidFunction(double x)
-    {
-        if (x < -45.0)
-            return 0.0;
-        if (x > 45.0)
-            return 1.0;
-        return 1.0/(1.0 + Math.exp(-x));
-    }
-
-    @Override
     public double[] getInputCells() {
         return inputCells;
     }
@@ -165,5 +110,65 @@ public class BackPropagation implements NeuralNetwork {
     @Override
     public double[][] getHoWeights() {
         return hoWeights;
+    }
+
+    @Override
+    public void setOutputCells(double[] outputCells) {
+        this.outputCells = outputCells;
+    }
+
+    @Override
+    public void setErrors(double[] errors) {
+        this.errors = errors;
+    }
+
+    @Override
+    public int getNumberOfInputCells() {
+        return numberOfInputCells;
+    }
+
+    @Override
+    public int getNumberOfHiddenCells() {
+        return numberOfHiddenCells;
+    }
+
+    @Override
+    public int getNumberOfOutputCells() {
+        return numberOfOutputCells;
+    }
+
+    @Override
+    public void setHiddenCell(int index, double hiddelCell) {
+        hiddenCells[index] = hiddelCell;
+    }
+
+    @Override
+    public double[] getOutputCells() {
+        return outputCells;
+    }
+
+    @Override
+    public int getEpoch() {
+        return epoch;
+    }
+
+    @Override
+    public double[] getErrors() {
+        return errors;
+    }
+
+    @Override
+    public double getMomentum() {
+        return momentum;
+    }
+
+    @Override
+    public double[] gethBiases() {
+        return hBiases;
+    }
+
+    @Override
+    public double[] getoBiases() {
+        return oBiases;
     }
 }

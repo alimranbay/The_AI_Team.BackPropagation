@@ -1,15 +1,17 @@
 package be.kdg.ai.backpropagation.controller;
 
-import be.kdg.ai.backpropagation.controller.algorithm.NeuralNetwork;
+import be.kdg.ai.backpropagation.model.NeuralNetwork;
 
 /**
  * A controller class that controls input and output
  */
 public class ViewController {
     private NeuralNetwork neuralNetwork;
+    private Controller controller;
 
-    public ViewController(NeuralNetwork neuralNetwork) {
+    public ViewController(NeuralNetwork neuralNetwork, Controller controller) {
         this.neuralNetwork = neuralNetwork;
+        this.controller = controller;
     }
 
     public void initializeNetwork() {
@@ -29,7 +31,7 @@ public class ViewController {
     }
 
     public double[] getOutputCells() {
-        return neuralNetwork.computeOutputs();
+        return controller.computeOutputs();
     }
 
     public double[][] getIhWeights() {
@@ -41,6 +43,6 @@ public class ViewController {
     }
 
     public double[] getErrors() {
-        return neuralNetwork.computeErrors();
+        return controller.computeErrors();
     }
 }

@@ -88,12 +88,12 @@ public class JavaFxView extends Application{
     }
 
     private void startBackProp(){
-        double[][] iHValues = viewController.getIhWeights();
+        double[][] ihValues = viewController.getIhWeights();
         ArrayList<Double> tempIHValues = new ArrayList<>();
 
         for(int i = 0; i < inputLabels.length; i++){
             for(int j = 0; j < hiddenLabels.length; j++){
-               tempIHValues.add(iHValues[i][j]);
+               tempIHValues.add(ihValues[i][j]);
             }
         }
 
@@ -101,11 +101,11 @@ public class JavaFxView extends Application{
             ihLabels.get(i).setText(String.valueOf(tempIHValues.get(i)));
         }
 
-        double[][] HoValues = viewController.getHoWeights();
+        double[][] hoValues = viewController.getHoWeights();
         ArrayList<Double> tempHoValues = new ArrayList<>();
         for(int i = 0; i < hiddenLabels.length; i++){
             for(int j = 0; j < outputLabels.length; j++){
-                tempHoValues.add(HoValues[i][j]);
+                tempHoValues.add(hoValues[i][j]);
             }
         }
 
@@ -116,9 +116,8 @@ public class JavaFxView extends Application{
         double[] outputValues = viewController.getOutputCells();
         for (int i = 0; i < outputValues.length; i++)
             outputLabels[i].setText(outputValues[i] + "");
-
-
     }
+
     private HBox createTargets() {
         HBox hBox = new HBox(200);
         hBox.setAlignment(Pos.CENTER);
