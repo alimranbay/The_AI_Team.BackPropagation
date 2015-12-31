@@ -105,7 +105,7 @@ public class BackPropagationController implements Controller {
         // Calculate gradients
         for (int i = 0; i < numberOfOutputcells; i++) {
             derivative = (1 - outputCells[i]) * outputCells[i];
-            outputGradients[i] = derivative * (errors[i]);
+            outputGradients[i] = derivative * (targetValues[i] - outputCells[i]);
         }
         backPropagationNetwork.setOutputGradients(outputGradients);
 
