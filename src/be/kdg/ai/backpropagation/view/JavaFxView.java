@@ -38,7 +38,7 @@ public class JavaFxView extends Application{
         Group root = new Group();
         primaryStage.setTitle("Neurale netwerk");
         GridPane grid = new GridPane();
-        Scene scene = new Scene(grid, 1000, 600);
+        Scene scene = new Scene(grid, 1200, 600);
         scene.getStylesheets().add("/be/kdg/ai/backpropagation/view/css/layout.css");
 
         grid.setHgap(10);
@@ -50,7 +50,7 @@ public class JavaFxView extends Application{
         HBox hbTop = new HBox(10);
         hbTop.setPadding(new Insets(10, 10, 10, 10));
         hbTop.setAlignment(Pos.CENTER);
-        hbTop.setMinWidth(980);
+        hbTop.setMinWidth(1180);
 
         Button initBtn = new Button("Initialise");
         Button startBtn = new Button("Start BackPropgation");
@@ -78,13 +78,13 @@ public class JavaFxView extends Application{
         viewController.initializeNetwork();
         double[] inputValues = viewController.getInputValues();
         for (int i = 0; i < inputValues.length; i++)
-            inputLabels[i].setText(inputValues[i] + "");
+            inputLabels[i].setText(String.format("%.0f", inputValues[i]));
         double[] targetValues = viewController.getTargetValues();
         for (int i = 0; i < targetValues.length; i++)
-            targetLabels[i].setText(targetValues[i] + "");
+            targetLabels[i].setText(String.format("%.4f", targetValues[i]));
         double[] hiddenValues = viewController.getHiddenValues();
         for (int i = 0; i < hiddenValues.length; i++)
-            hiddenLabels[i].setText(hiddenValues[i] + "");
+            hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
     }
 
     private void startBackProp(){
@@ -98,7 +98,7 @@ public class JavaFxView extends Application{
         }
 
         for(int i = 0; i < tempIHValues.size();i++){
-            ihLabels.get(i).setText(String.valueOf(tempIHValues.get(i)));
+            ihLabels.get(i).setText(String.format("%.4f", tempIHValues.get(i)));
         }
 
         double[][] hoValues = viewController.getHoWeights();
@@ -110,12 +110,12 @@ public class JavaFxView extends Application{
         }
 
         for(int i = 0; i < tempHoValues.size();i++){
-            hoLabels.get(i).setText(String.valueOf(tempHoValues.get(i)));
+            hoLabels.get(i).setText(String.format("%.4f", tempHoValues.get(i)));
         }
 
         double[] outputValues = viewController.getOutputCells();
         for (int i = 0; i < outputValues.length; i++)
-            outputLabels[i].setText(outputValues[i] + "");
+            outputLabels[i].setText(String.format("%.4f", outputValues[i]));
     }
 
     private HBox createTargets() {
