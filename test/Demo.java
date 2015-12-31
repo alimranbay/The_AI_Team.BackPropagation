@@ -13,7 +13,7 @@ public class Demo {
         Controller controller = new BackPropagationController(network);
 //        controller.startBackpropagation();
 
-        ViewController viewController = new ViewController(network, controller);
+        ViewController viewController = new ViewController(network);
         JavaFxView javaFxView = new JavaFxView();
         javaFxView.setViewController(viewController);
 

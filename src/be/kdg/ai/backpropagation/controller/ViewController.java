@@ -7,11 +7,9 @@ import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
  */
 public class ViewController {
     private BackPropagationNetwork backPropagationNetwork;
-    private Controller controller;
 
-    public ViewController(BackPropagationNetwork backPropagationNetwork, Controller controller) {
+    public ViewController(BackPropagationNetwork backPropagationNetwork) {
         this.backPropagationNetwork = backPropagationNetwork;
-        this.controller = controller;
     }
 
     public void initializeNetwork() {
@@ -32,7 +30,6 @@ public class ViewController {
 
     public double[] getOutputCells() {
         return backPropagationNetwork.getOutputCells();
-//        return controller.computeOutputs();
     }
 
     public double[][] getIhWeights() {
