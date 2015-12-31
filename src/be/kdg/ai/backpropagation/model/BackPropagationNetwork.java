@@ -76,6 +76,14 @@ public class BackPropagationNetwork {
 
         targets = new double[numberOfOutputCells];
 
+        hiddenGradients = new double[numberOfHiddenCells];
+        outputGradients = new double[numberOfOutputCells];
+
+        ihPreviousWeightsDelta = new double[numberOfInputCells][numberOfHiddenCells];
+        hoPreviousWeightsDelta = new double[numberOfHiddenCells][numberOfOutputCells];
+        hPreviousBiasesDelta = new double[numberOfHiddenCells];
+        oPreviousBiasesDelta = new double[numberOfOutputCells];
+
         for (int i = 0; i < numberOfOutputCells; i++)
             targets[i] = random.nextDouble();
         for (int i = 0; i < numberOfHiddenCells; i++)

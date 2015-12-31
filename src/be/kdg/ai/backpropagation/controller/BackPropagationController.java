@@ -53,6 +53,8 @@ public class BackPropagationController implements Controller {
             outputCells[i] = sigmoidFunction(outputCells[i]);
         backPropagationNetwork.setOutputCells(outputCells);
 
+        updateWeights();
+
         return outputCells;
     }
 
