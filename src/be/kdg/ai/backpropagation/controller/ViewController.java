@@ -41,8 +41,4 @@ public class ViewController {
     public double[][] getHoWeights() {
         return backPropagationNetwork.getHoWeights();
     }
-
-    public double[] getErrors() {
-        return controller.computeErrors();
-    }
 }

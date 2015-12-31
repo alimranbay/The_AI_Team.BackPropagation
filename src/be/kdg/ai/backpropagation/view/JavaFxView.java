@@ -116,6 +116,10 @@ public class JavaFxView extends Application{
         double[] outputValues = viewController.getOutputCells();
         for (int i = 0; i < outputValues.length; i++)
             outputLabels[i].setText(String.format("%.4f", outputValues[i]));
+
+        double[] hiddenValues = viewController.getHiddenValues();
+        for (int i = 0; i < hiddenValues.length; i++)
+            hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
     }
 
     private HBox createTargets() {
