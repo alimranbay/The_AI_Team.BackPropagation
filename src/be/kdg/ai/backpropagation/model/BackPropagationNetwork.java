@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * A backpropagetion algorithm.
  */
-public class BackPropagationNetwork implements NeuralNetwork {
+public class BackPropagationNetwork {
 
     //region Fields
 
@@ -58,7 +58,6 @@ public class BackPropagationNetwork implements NeuralNetwork {
 //        initialize();
     }
 
-    @Override
     public void initialize(){
         Random random = new Random();
 
@@ -95,197 +94,158 @@ public class BackPropagationNetwork implements NeuralNetwork {
         }
     }
 
-    @Override
     public double[] getInputCells() {
         return inputCells;
     }
 
-    @Override
     public double[] getTargets() {
         return targets;
     }
 
-    @Override
     public double[] getHiddenCells() {
         return hiddenCells;
     }
 
-    @Override
     public double[][] getIhWeights() {
         return ihWeights;
     }
 
-    @Override
     public double[][] getHoWeights() {
         return hoWeights;
     }
 
-    @Override
     public void setOutputCells(double[] outputCells) {
         this.outputCells = outputCells;
     }
 
-    @Override
     public void setErrors(double[] errors) {
         this.errors = errors;
     }
 
-    @Override
     public int getNumberOfInputCells() {
         return numberOfInputCells;
     }
 
-    @Override
     public int getNumberOfHiddenCells() {
         return numberOfHiddenCells;
     }
 
-    @Override
     public int getNumberOfOutputCells() {
         return numberOfOutputCells;
     }
 
-    @Override
     public void setHiddenCell(int index, double hiddelCell) {
         hiddenCells[index] = hiddelCell;
     }
 
-    @Override
     public double[] getOutputCells() {
         return outputCells;
     }
 
-    @Override
     public int getEpoch() {
         return epoch;
     }
 
-    @Override
     public double[] getErrors() {
         return errors;
     }
 
-    @Override
     public double getMomentum() {
         return momentum;
     }
 
-    @Override
     public double[] gethBiases() {
         return hBiases;
     }
 
-    @Override
     public double[] getoBiases() {
         return oBiases;
     }
 
-    @Override
     public double[] getHiddenGradients() {
         return hiddenGradients;
     }
 
-    @Override
     public double[] getOutputGradients() {
         return outputGradients;
     }
 
-    @Override
     public void setOutputGradients(double[] outputGradients) {
         this.outputGradients = outputGradients;
     }
 
-    @Override
     public void setHiddenGradients(double[] hiddenGradients) {
         this.hiddenGradients = hiddenGradients;
     }
 
-    @Override
     public void sethBiases(double[] hBiases) {
         this.hBiases = hBiases;
     }
 
-    @Override
     public void setIhWeights(double[][] ihWeights) {
         this.ihWeights = ihWeights;
     }
 
-    @Override
     public void setHoWeights(double[][] hoWeights) {
         this.hoWeights = hoWeights;
     }
 
-    @Override
     public void setoBiases(double[] oBiases) {
         this.oBiases = oBiases;
     }
 
-    @Override
     public double[] getoPreviousBiasesDelta() {
         return oPreviousBiasesDelta;
     }
 
-    @Override
     public void setoPreviousBiasesDelta(double[] oPreviousBiasesDelta) {
         this.oPreviousBiasesDelta = oPreviousBiasesDelta;
     }
 
-    @Override
     public double getLEARNING_RATE() {
         return LEARNING_RATE;
     }
 
-    @Override
     public double[][] getIhPreviousWeightsDelta() {
         return ihPreviousWeightsDelta;
     }
 
-    @Override
     public void setIhPreviousWeightsDelta(double[][] ihPreviousWeightsDelta) {
         this.ihPreviousWeightsDelta = ihPreviousWeightsDelta;
     }
 
-    @Override
     public double[] gethPreviousBiasesDelta() {
         return hPreviousBiasesDelta;
     }
 
-    @Override
     public void sethPreviousBiasesDelta(double[] hPreviousBiasesDelta) {
         this.hPreviousBiasesDelta = hPreviousBiasesDelta;
     }
 
-    @Override
     public double[][] getHoPreviousWeightsDelta() {
         return hoPreviousWeightsDelta;
     }
 
-    @Override
     public void setHoPreviousWeightsDelta(double[][] hoPreviousWeightsDelta) {
         this.hoPreviousWeightsDelta = hoPreviousWeightsDelta;
     }
 
-    @Override
     public double getERROR_TRESHOLD() {
         return ERROR_TRESHOLD;
     }
 
-    @Override
     public int getMAX_EPOCH() {
         return MAX_EPOCH;
     }
 
-    @Override
     public void setLEARNING_RATE(double LEARNING_RATE) {
         this.LEARNING_RATE = LEARNING_RATE;
     }
 
-    @Override
     public void setMAX_EPOCH(int MAX_EPOCH) {
         this.MAX_EPOCH = MAX_EPOCH;
     }
 
-    @Override
     public void setERROR_TRESHOLD(double ERROR_TRESHOLD) {
         this.ERROR_TRESHOLD = ERROR_TRESHOLD;
     }

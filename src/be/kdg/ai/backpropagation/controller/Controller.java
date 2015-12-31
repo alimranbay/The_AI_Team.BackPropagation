@@ -1,17 +1,17 @@
 package be.kdg.ai.backpropagation.controller;
 
-import be.kdg.ai.backpropagation.model.NeuralNetwork;
+import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
 
 /**
  * This class
  */
 public class Controller {
-    private NeuralNetwork neuralNetwork;
+    private BackPropagationNetwork backPropagationNetwork;
     private double[] tempHiddens;
 
-    public Controller(NeuralNetwork neuralNetwork) {
-        this.neuralNetwork = neuralNetwork;
-        tempHiddens = new double[neuralNetwork.getNumberOfHiddenCells()];
+    public Controller(BackPropagationNetwork backPropagationNetwork) {
+        this.backPropagationNetwork = backPropagationNetwork;
+        tempHiddens = new double[backPropagationNetwork.getNumberOfHiddenCells()];
     }
 
     public void startNeuralNetwork() {
@@ -20,95 +20,95 @@ public class Controller {
     }
 
     public double[] computeOutputs(){
-        int numberOfInputCells = neuralNetwork.getNumberOfInputCells();
-        int numberOfHiddenCells = neuralNetwork.getNumberOfHiddenCells();
-        int numberOfOutputCells = neuralNetwork.getNumberOfOutputCells();
+        int numberOfInputCells = backPropagationNetwork.getNumberOfInputCells();
+        int numberOfHiddenCells = backPropagationNetwork.getNumberOfHiddenCells();
+        int numberOfOutputCells = backPropagationNetwork.getNumberOfOutputCells();
         // initialize hidden cells
         for (int i = 0; i < numberOfHiddenCells; i++)
-            neuralNetwork.setHiddenCell(i, 0);
+            backPropagationNetwork.setHiddenCell(i, 0);
 
         for (int i = 0; i < numberOfHiddenCells; i++) {
             for (int j = 0; j < numberOfInputCells; j++){
-                neuralNetwork.setHiddenCell(i,
-                        neuralNetwork.getHiddenCells()[i] +
-                        (neuralNetwork.getInputCells()[j] *
-                        neuralNetwork.getIhWeights()[j][i]));
+                backPropagationNetwork.setHiddenCell(i,
+                        backPropagationNetwork.getHiddenCells()[i] +
+                        (backPropagationNetwork.getInputCells()[j] *
+                        backPropagationNetwork.getIhWeights()[j][i]));
             }
-            neuralNetwork.setHiddenCell(i, neuralNetwork.getHiddenCells()[i] + neuralNetwork.gethBiases()[i]);
+            backPropagationNetwork.setHiddenCell(i, backPropagationNetwork.getHiddenCells()[i] + backPropagationNetwork.gethBiases()[i]);
         }
 
         for (int i = 0; i < numberOfHiddenCells; i++)
-            tempHiddens[i] = hyperTanFunction(neuralNetwork.getHiddenCells()[i]);
+            tempHiddens[i] = hyperTanFunction(backPropagationNetwork.getHiddenCells()[i]);
 
-        double outputCells[] = neuralNetwork.getOutputCells();
+        double outputCells[] = backPropagationNetwork.getOutputCells();
         for (int i = 0; i < numberOfOutputCells; i++) {
             for (int j = 0; j < numberOfHiddenCells; j++)
-                outputCells[i] += (tempHiddens[j] * neuralNetwork.getHoWeights()[j][i]);
-            outputCells[i] += neuralNetwork.getoBiases()[i];
+                outputCells[i] += (tempHiddens[j] * backPropagationNetwork.getHoWeights()[j][i]);
+            outputCells[i] += backPropagationNetwork.getoBiases()[i];
         }
 
         for (int i = 0; i < numberOfOutputCells; i++)
             outputCells[i] = sigmoidFunction(outputCells[i]);
-        neuralNetwork.setOutputCells(outputCells);
+        backPropagationNetwork.setOutputCells(outputCells);
 
         return outputCells;
     }
 
     public double[] computeErrors() {
-        double[] errors = neuralNetwork.getErrors();
-        for (int i = 0; i < neuralNetwork.getNumberOfOutputCells(); i++)
-            errors[i] = Math.abs(neuralNetwork.getTargets()[i] - neuralNetwork.getOutputCells()[i]);
+        double[] errors = backPropagationNetwork.getErrors();
+        for (int i = 0; i < backPropagationNetwork.getNumberOfOutputCells(); i++)
+            errors[i] = Math.abs(backPropagationNetwork.getTargets()[i] - backPropagationNetwork.getOutputCells()[i]);
 
-        neuralNetwork.setErrors(errors);
+        backPropagationNetwork.setErrors(errors);
         return errors;
     }
 
     public void updateWeights () {
-        double[] outputCells = neuralNetwork.getOutputCells();
-        double[] inputCells = neuralNetwork.getInputCells();
-        double[] hiddenCells = neuralNetwork.getHiddenCells();
+        double[] outputCells = backPropagationNetwork.getOutputCells();
+        double[] inputCells = backPropagationNetwork.getInputCells();
+        double[] hiddenCells = backPropagationNetwork.getHiddenCells();
 
-        double[] targetValues = neuralNetwork.getTargets();
-        double[][] hoWeights = neuralNetwork.getHoWeights();
-        double[][] ihWeights = neuralNetwork.getIhWeights();
+        double[] targetValues = backPropagationNetwork.getTargets();
+        double[][] hoWeights = backPropagationNetwork.getHoWeights();
+        double[][] ihWeights = backPropagationNetwork.getIhWeights();
 
-        double[] hiddenBiases = neuralNetwork.gethBiases();
-        double[] outputBiases = neuralNetwork.getoBiases();
+        double[] hiddenBiases = backPropagationNetwork.gethBiases();
+        double[] outputBiases = backPropagationNetwork.getoBiases();
 
-        double[] outputGradients = neuralNetwork.getOutputGradients();
-        double[] hiddenGradients = neuralNetwork.getHiddenGradients();
+        double[] outputGradients = backPropagationNetwork.getOutputGradients();
+        double[] hiddenGradients = backPropagationNetwork.getHiddenGradients();
 
         double derivative;
         double sum = 0.0;
         double delta;
 
-        int numberOfOutputcells = neuralNetwork.getNumberOfOutputCells();
-        int numberOfHiddenCells = neuralNetwork.getNumberOfHiddenCells();
-        int numberOfInputCells = neuralNetwork.getNumberOfInputCells();
+        int numberOfOutputcells = backPropagationNetwork.getNumberOfOutputCells();
+        int numberOfHiddenCells = backPropagationNetwork.getNumberOfHiddenCells();
+        int numberOfInputCells = backPropagationNetwork.getNumberOfInputCells();
 
-        double learningRate = neuralNetwork.getLEARNING_RATE();
-        double momentum = neuralNetwork.getMomentum();
+        double learningRate = backPropagationNetwork.getLEARNING_RATE();
+        double momentum = backPropagationNetwork.getMomentum();
 
-        double[][] ihPreviousWeightsDelta = neuralNetwork.getIhPreviousWeightsDelta();
-        double[] hPreviousBiasesDelta = neuralNetwork.gethPreviousBiasesDelta();
-        double[][] hoPreviousWeightsDelta = neuralNetwork.getHoPreviousWeightsDelta();
-        double[] oPreviousBiasesDelta = neuralNetwork.getoPreviousBiasesDelta();
+        double[][] ihPreviousWeightsDelta = backPropagationNetwork.getIhPreviousWeightsDelta();
+        double[] hPreviousBiasesDelta = backPropagationNetwork.gethPreviousBiasesDelta();
+        double[][] hoPreviousWeightsDelta = backPropagationNetwork.getHoPreviousWeightsDelta();
+        double[] oPreviousBiasesDelta = backPropagationNetwork.getoPreviousBiasesDelta();
 
         // Calculate gradients
         for (int i = 0; i < numberOfOutputcells; i++) {
             derivative = (1 - outputCells[i]) * outputCells[i];
             outputGradients[i] = derivative * (targetValues[i] - outputCells[i]);
         }
-        neuralNetwork.setOutputGradients(outputGradients);
+        backPropagationNetwork.setOutputGradients(outputGradients);
 
         for (int i = 0; i < numberOfHiddenCells; i++) {
             derivative = (1 - tempHiddens[i]) * (1 + tempHiddens[i]);
-            for (int j = 0; j < neuralNetwork.getNumberOfOutputCells(); j++) {
+            for (int j = 0; j < backPropagationNetwork.getNumberOfOutputCells(); j++) {
                 sum += outputGradients[j] * hoWeights[i][j];
             }
             hiddenGradients[i] = derivative * sum;
         }
-        neuralNetwork.setHiddenGradients(hiddenGradients);
+        backPropagationNetwork.setHiddenGradients(hiddenGradients);
 
         // update weights & biases
         for (int i = 0; i < numberOfInputCells; i++)
@@ -118,8 +118,8 @@ public class Controller {
                 ihWeights[i][j] += momentum * ihPreviousWeightsDelta[i][j];
                 ihPreviousWeightsDelta[i][j] = delta;
             }
-        neuralNetwork.setIhWeights(ihWeights);
-        neuralNetwork.setIhPreviousWeightsDelta(ihPreviousWeightsDelta);
+        backPropagationNetwork.setIhWeights(ihWeights);
+        backPropagationNetwork.setIhPreviousWeightsDelta(ihPreviousWeightsDelta);
 
         for (int i = 0; i < numberOfHiddenCells; i++){
             delta = learningRate * hiddenGradients[i];
@@ -127,8 +127,8 @@ public class Controller {
             hiddenBiases[i] += momentum * hPreviousBiasesDelta[i];
             hPreviousBiasesDelta[i] = delta;
         }
-        neuralNetwork.sethBiases(hiddenBiases);
-        neuralNetwork.sethPreviousBiasesDelta(hPreviousBiasesDelta);
+        backPropagationNetwork.sethBiases(hiddenBiases);
+        backPropagationNetwork.sethPreviousBiasesDelta(hPreviousBiasesDelta);
 
         for (int i = 0; i < numberOfHiddenCells; i++)
             for (int j = 0; j < numberOfOutputcells; j++) {
@@ -137,8 +137,8 @@ public class Controller {
                 hoWeights[i][j] += momentum * hoPreviousWeightsDelta[i][j];
                 hoPreviousWeightsDelta[i][j] = delta;
             }
-        neuralNetwork.setHoWeights(hoWeights);
-        neuralNetwork.setHoPreviousWeightsDelta(hoPreviousWeightsDelta);
+        backPropagationNetwork.setHoWeights(hoWeights);
+        backPropagationNetwork.setHoPreviousWeightsDelta(hoPreviousWeightsDelta);
 
         for (int i = 0; i < numberOfOutputcells; i++){
             delta = learningRate * outputGradients[i];
@@ -146,8 +146,8 @@ public class Controller {
             outputBiases[i] += momentum * oPreviousBiasesDelta[i];
             oPreviousBiasesDelta[i] = delta;
         }
-        neuralNetwork.setoBiases(outputBiases);
-        neuralNetwork.setoPreviousBiasesDelta(oPreviousBiasesDelta);
+        backPropagationNetwork.setoBiases(outputBiases);
+        backPropagationNetwork.setoPreviousBiasesDelta(oPreviousBiasesDelta);
     }
 
     private static double hyperTanFunction(double x)
