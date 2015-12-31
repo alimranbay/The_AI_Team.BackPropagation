@@ -1,5 +1,6 @@
 package be.kdg.ai.backpropagation.view;
 
+import be.kdg.ai.backpropagation.controller.Controller;
 import be.kdg.ai.backpropagation.controller.ViewController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -21,12 +22,17 @@ import java.util.ArrayList;
 public class JavaFxView extends Application{
     // http://stackoverflow.com/questions/15160410/usage-of-javafx-platform-runlater-and-access-to-ui-from-a-different-thread?lq=1
     private static ViewController viewController;
+    private static Controller controller;
     private static Label[] inputLabels;
     private static Label[] targetLabels;
     private static Label[] hiddenLabels;
     private static ArrayList<Label> ihLabels = new ArrayList<>();
     private static ArrayList<Label> hoLabels = new ArrayList<>();
     private static Label[] outputLabels;
+
+    public static void setController(Controller controller) {
+        JavaFxView.controller = controller;
+    }
 
     public void setViewController(ViewController viewController) {
         JavaFxView.viewController = viewController;
@@ -87,13 +93,19 @@ public class JavaFxView extends Application{
             hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
     }
 
-    private void startBackProp(){
+    private static void startBackProp(){
+
+        controller.startBackpropagation();
+
+    }
+
+    public static void changeValues(){
         double[][] ihValues = viewController.getIhWeights();
         ArrayList<Double> tempIHValues = new ArrayList<>();
 
         for(int i = 0; i < inputLabels.length; i++){
             for(int j = 0; j < hiddenLabels.length; j++){
-               tempIHValues.add(ihValues[i][j]);
+                tempIHValues.add(ihValues[i][j]);
             }
         }
 

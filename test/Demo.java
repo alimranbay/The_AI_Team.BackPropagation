@@ -11,12 +11,13 @@ public class Demo {
     public static void main(String[] args) {
         BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
         Controller controller = new BackPropagationController(network);
-//        controller.startNeuralNetwork();
+//        controller.startBackpropagation();
 
         ViewController viewController = new ViewController(network, controller);
         JavaFxView javaFxView = new JavaFxView();
         javaFxView.setViewController(viewController);
 
+        JavaFxView.setController(controller);
         JavaFxView.launch(JavaFxView.class, args);
     }
 }

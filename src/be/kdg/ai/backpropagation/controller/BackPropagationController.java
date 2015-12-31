@@ -1,6 +1,7 @@
 package be.kdg.ai.backpropagation.controller;
 
 import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
+import be.kdg.ai.backpropagation.view.JavaFxView;
 
 /**
  * This class
@@ -8,16 +9,23 @@ import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
 public class BackPropagationController implements Controller {
     private BackPropagationNetwork backPropagationNetwork;
     private double[] tempHiddens;
-
     public BackPropagationController(BackPropagationNetwork backPropagationNetwork) {
         this.backPropagationNetwork = backPropagationNetwork;
         tempHiddens = new double[backPropagationNetwork.getNumberOfHiddenCells()];
     }
 
     @Override
-    public void startNeuralNetwork() {
-        computeOutputs();
-        computeErrors();
+    public void startBackpropagation() {
+        for (int i = 0; i < backPropagationNetwork.getMAX_EPOCH(); i++) {
+            computeOutputs();
+            updateWeights();
+            JavaFxView.changeValues();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -53,7 +61,7 @@ public class BackPropagationController implements Controller {
             outputCells[i] = sigmoidFunction(outputCells[i]);
         backPropagationNetwork.setOutputCells(outputCells);
 
-        updateWeights();
+//        updateWeights();
 
         return outputCells;
     }

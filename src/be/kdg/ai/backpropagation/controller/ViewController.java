@@ -31,7 +31,8 @@ public class ViewController {
     }
 
     public double[] getOutputCells() {
-        return controller.computeOutputs();
+        return backPropagationNetwork.getOutputCells();
+//        return controller.computeOutputs();
     }
 
     public double[][] getIhWeights() {
