@@ -2,6 +2,8 @@ package be.kdg.ai.backpropagation.controller;
 
 import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
 import be.kdg.ai.backpropagation.view.JavaFxView;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 
 /**
  * This class
@@ -9,23 +11,38 @@ import be.kdg.ai.backpropagation.view.JavaFxView;
 public class BackPropagationController implements Controller {
     private BackPropagationNetwork backPropagationNetwork;
     private double[] tempHiddens;
+    Thread th;
+
     public BackPropagationController(BackPropagationNetwork backPropagationNetwork) {
         this.backPropagationNetwork = backPropagationNetwork;
         tempHiddens = new double[backPropagationNetwork.getNumberOfHiddenCells()];
+        th = new Thread();
+    }
+
+    @Override
+    public void stopBackpropagation() {
+        th.stop();
     }
 
     @Override
     public void startBackpropagation() {
-        for (int i = 0; i < backPropagationNetwork.getMAX_EPOCH(); i++) {
-            computeOutputs();
-            updateWeights();
-            JavaFxView.changeValues();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                for (int i = 0; i < backPropagationNetwork.getMAX_EPOCH(); i++) {
+                    Platform.runLater(() -> {
+                        computeOutputs();
+                        updateWeights();
+                        JavaFxView.changeValues();
+                    });
+                    Thread.sleep(50);
+                }
+                return null;
             }
-        }
+        };
+        th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 
     @Override

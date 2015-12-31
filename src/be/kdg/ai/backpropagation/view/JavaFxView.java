@@ -81,6 +81,7 @@ public class JavaFxView extends Application{
     }
 
     private void initialize() {
+        controller.stopBackpropagation();
         viewController.initializeNetwork();
         double[] inputValues = viewController.getInputValues();
         for (int i = 0; i < inputValues.length; i++)
@@ -94,9 +95,7 @@ public class JavaFxView extends Application{
     }
 
     private static void startBackProp(){
-
         controller.startBackpropagation();
-
     }
 
     public static void changeValues(){
