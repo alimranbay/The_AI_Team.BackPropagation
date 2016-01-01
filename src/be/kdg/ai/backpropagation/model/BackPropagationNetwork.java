@@ -58,7 +58,9 @@ public class BackPropagationNetwork {
 //        initialize();
     }
 
-    public void initialize(){
+    public void initialize(Double lRate, Double threshhold){
+        errorTreshold = threshhold;
+        learningRate = lRate;
         Random random = new Random();
 
         hiddenCells = new double[numberOfHiddenCells];
@@ -99,6 +101,8 @@ public class BackPropagationNetwork {
             for (int j = 0; j < numberOfOutputCells; j++)
                 hoWeights[i][j] = random.nextDouble() / 100;
         }
+
+
     }
 
     public double[] getInputCells() {

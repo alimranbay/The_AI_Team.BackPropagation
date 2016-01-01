@@ -12,8 +12,8 @@ public class ViewController {
         this.backPropagationNetwork = backPropagationNetwork;
     }
 
-    public void initializeNetwork() {
-        backPropagationNetwork.initialize();
+    public void initializeNetwork(Double learningRate, Double threshhold) {
+        backPropagationNetwork.initialize(learningRate,threshhold);
     }
 
     public double[] getInputValues(){

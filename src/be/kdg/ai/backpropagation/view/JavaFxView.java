@@ -30,6 +30,9 @@ public class JavaFxView extends Application{
     private static ArrayList<Label> hoLabels = new ArrayList<>();
     private static Label[] outputLabels;
 
+    TextField learningRate;
+    TextField threshHold;
+
     public static void setController(Controller controller) {
         JavaFxView.controller = controller;
     }
@@ -82,7 +85,7 @@ public class JavaFxView extends Application{
 
     private void initialize() {
         controller.stopBackpropagation();
-        viewController.initializeNetwork();
+        viewController.initializeNetwork(Double.parseDouble(learningRate.getText()),Double.parseDouble(threshHold.getText()));
         double[] inputValues = viewController.getInputValues();
         for (int i = 0; i < inputLabels.length; i++)
             inputLabels[i].setText(String.format("%.0f", inputValues[i]));
@@ -313,10 +316,10 @@ public class JavaFxView extends Application{
         Label labelbt2 = new Label("Error Threshold");
         labelbt2.setPadding(new Insets(10, 10, 10, 10));
 
-        TextField forLabel1 = new TextField();
-        hbMid.getChildren().addAll(labelbt, forLabel1);
-        TextField forLabel2 = new TextField();
-        hbMid.getChildren().addAll(labelbt2, forLabel2);
+        learningRate = new TextField();
+        hbMid.getChildren().addAll(labelbt, learningRate);
+        threshHold = new TextField();
+        hbMid.getChildren().addAll(labelbt2, threshHold);
 
         return hbMid;
     }

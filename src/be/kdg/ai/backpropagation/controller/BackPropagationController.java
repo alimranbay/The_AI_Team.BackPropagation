@@ -116,6 +116,7 @@ public class BackPropagationController implements Controller {
     public void updateWeights() {
         double[] errors = computeErrors();
 
+
         double[] outputCells = backPropagationNetwork.getOutputCells();
         double[] inputCells = backPropagationNetwork.getInputCells();
         double[] hiddenCells = backPropagationNetwork.getHiddenCells();
@@ -200,6 +201,8 @@ public class BackPropagationController implements Controller {
         }
         backPropagationNetwork.setoBiases(outputBiases);
         backPropagationNetwork.setoPreviousBiasesDelta(oPreviousBiasesDelta);
+
+
     }
 
     private static double hyperTanFunction(double x)
