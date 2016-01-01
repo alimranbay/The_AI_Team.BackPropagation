@@ -35,6 +35,24 @@ public class BackPropagationController implements Controller {
                         computeOutputs();
                         updateWeights();
                         JavaFxView.changeValues();
+
+                        // Stop if errortreshold is reached
+                        double[] errors = backPropagationNetwork.getErrors();
+                        double maxError = backPropagationNetwork.getErrorTreshold();
+                        boolean allOutputsAreGood = false;
+                        for (double error : errors) {
+                            if (error < maxError) {
+                                allOutputsAreGood = true;
+                            } else {
+                                allOutputsAreGood = false;
+                                break;
+                            }
+                        }
+                        if (allOutputsAreGood) {
+                            System.out.println("STOPPED");
+                            stopBackpropagation();
+                            return;
+                        }
                     });
                     Thread.sleep(WAIT_TIME_MILLIS);
                 }
