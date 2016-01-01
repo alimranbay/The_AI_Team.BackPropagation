@@ -11,7 +11,6 @@ public class Demo {
     public static void main(String[] args) {
         BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
         Controller controller = new BackPropagationController(network);
-//        controller.startBackpropagation();
 
         ViewController viewController = new ViewController(network);
         JavaFxView javaFxView = new JavaFxView();

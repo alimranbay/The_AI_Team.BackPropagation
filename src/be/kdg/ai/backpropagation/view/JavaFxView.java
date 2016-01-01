@@ -84,7 +84,7 @@ public class JavaFxView extends Application{
         controller.stopBackpropagation();
         viewController.initializeNetwork();
         double[] inputValues = viewController.getInputValues();
-        for (int i = 0; i < inputValues.length; i++)
+        for (int i = 0; i < inputLabels.length; i++)
             inputLabels[i].setText(String.format("%.0f", inputValues[i]));
         double[] targetValues = viewController.getTargetValues();
         for (int i = 0; i < targetValues.length; i++)

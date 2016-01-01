@@ -9,6 +9,7 @@ import javafx.concurrent.Task;
  * This class
  */
 public class BackPropagationController implements Controller {
+    private static final int WAIT_TIME_MILLIS = 50;
     private BackPropagationNetwork backPropagationNetwork;
     private double[] tempHiddens;
     Thread th;
@@ -35,7 +36,7 @@ public class BackPropagationController implements Controller {
                         updateWeights();
                         JavaFxView.changeValues();
                     });
-                    Thread.sleep(50);
+                    Thread.sleep(WAIT_TIME_MILLIS);
                 }
                 return null;
             }
@@ -119,7 +120,7 @@ public class BackPropagationController implements Controller {
         int numberOfHiddenCells = backPropagationNetwork.getNumberOfHiddenCells();
         int numberOfInputCells = backPropagationNetwork.getNumberOfInputCells();
 
-        double learningRate = backPropagationNetwork.getLEARNING_RATE();
+        double learningRate = backPropagationNetwork.getLearningRate();
         double momentum = backPropagationNetwork.getMomentum();
 
         double[][] ihPreviousWeightsDelta = backPropagationNetwork.getIhPreviousWeightsDelta();

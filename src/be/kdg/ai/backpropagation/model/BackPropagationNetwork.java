@@ -13,7 +13,7 @@ public class BackPropagationNetwork {
     private int numberOfHiddenCells;
     private int numberOfOutputCells;
 
-    private double[] inputCells;                // Hard zetten op 1.0, -2.0 en 3.0
+    private double[] inputCells = new double[]{1.0, -2.0, 3.0};                // Hard zetten op 1.0, -2.0 en 3.0
 
     private double[][] ihWeights;               // input-to-hidden
 
@@ -28,13 +28,13 @@ public class BackPropagationNetwork {
     private double[] targets;
 
     private int epoch; // Aantal leeriteraties
-    private int MAX_EPOCH = 10_000;
+    private final int MAX_EPOCH = 10_000;
 
     private double[] errors; // Verschil tussen waarden van output cellen en target values na elke iteratie
-    private double ERROR_TRESHOLD = 0.0001; // VOORLOPIG If error < ERROR_TRESHOLD dan kan het leren stoppen
+    private double errorTreshold = 0.0001; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen
 
     private double momentum;
-    private double LEARNING_RATE = 0.5; // VOORLOPIG
+    private double learningRate = 0.5; // VOORLOPIG
 
     private double[] outputGradients;
     private double[] hiddenGradients;
@@ -64,7 +64,6 @@ public class BackPropagationNetwork {
         hiddenCells = new double[numberOfHiddenCells];
         outputCells = new double[numberOfOutputCells];
 
-        inputCells = new double[]{1.0, -2.0, 3.0};
         numberOfInputCells = inputCells.length;
 
         ihWeights = new double[numberOfInputCells][numberOfHiddenCells];
@@ -210,8 +209,8 @@ public class BackPropagationNetwork {
         this.oPreviousBiasesDelta = oPreviousBiasesDelta;
     }
 
-    public double getLEARNING_RATE() {
-        return LEARNING_RATE;
+    public double getLearningRate() {
+        return learningRate;
     }
 
     public double[][] getIhPreviousWeightsDelta() {
@@ -238,25 +237,23 @@ public class BackPropagationNetwork {
         this.hoPreviousWeightsDelta = hoPreviousWeightsDelta;
     }
 
-    public double getERROR_TRESHOLD() {
-        return ERROR_TRESHOLD;
+    public double getErrorTreshold() {
+        return errorTreshold;
     }
 
     public int getMAX_EPOCH() {
         return MAX_EPOCH;
     }
 
-    public void setLEARNING_RATE(double LEARNING_RATE) {
-        this.LEARNING_RATE = LEARNING_RATE;
+    public void setLearningRate(double learningRate) {
+        this.learningRate = learningRate;
     }
 
-    public void setMAX_EPOCH(int MAX_EPOCH) {
-        this.MAX_EPOCH = MAX_EPOCH;
+    public void setErrorTreshold(double errorTreshold) {
+        this.errorTreshold = errorTreshold;
     }
 
-    public void setERROR_TRESHOLD(double ERROR_TRESHOLD) {
-        this.ERROR_TRESHOLD = ERROR_TRESHOLD;
+    public void setInputCells(double[] inputCells) {
+        this.inputCells = inputCells;
     }
-
-
 }
