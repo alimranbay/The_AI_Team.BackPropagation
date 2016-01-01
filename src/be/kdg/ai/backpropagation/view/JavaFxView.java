@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This is class starts the JavaFX application.
@@ -85,7 +86,15 @@ public class JavaFxView extends Application{
 
     private void initialize() {
         controller.stopBackpropagation();
-        viewController.initializeNetwork(Double.parseDouble(learningRate.getText()),Double.parseDouble(threshHold.getText()));
+        String rate = learningRate.getText();
+        String hold = threshHold.getText();
+        if(Objects.equals(rate, "") || Objects.equals(hold, "")) {
+            viewController.initializeNetwork(0.5, 0.001);
+        }else {
+            Double lRate = Double.parseDouble(learningRate.getText());
+            Double eHold = Double.parseDouble(threshHold.getText());
+            viewController.initializeNetwork(lRate, eHold);
+        }
         double[] inputValues = viewController.getInputValues();
         for (int i = 0; i < inputLabels.length; i++)
             inputLabels[i].setText(String.format("%.0f", inputValues[i]));
