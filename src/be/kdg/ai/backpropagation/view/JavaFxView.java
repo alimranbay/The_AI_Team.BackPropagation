@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Locale;
 
 /**
  * This is class starts the JavaFX application.
@@ -30,7 +30,7 @@ public class JavaFxView extends Application{
     private static ArrayList<Label> ihLabels = new ArrayList<>();
     private static ArrayList<Label> hoLabels = new ArrayList<>();
     private static Label[] outputLabels;
-    private static Label stoppedLabel;
+    private static Label statusLabel;
     private static Label epochLabel;
 
     TextField learningRate;
@@ -92,12 +92,16 @@ public class JavaFxView extends Application{
         controller.stopBackpropagation();
         String rate = learningRate.getText();
         String hold = threshHold.getText();
-        if(Objects.equals(rate, "") || Objects.equals(hold, "")) {
-            viewController.initializeNetwork(0.5, 0.001);
-        }else {
-            Double lRate = Double.parseDouble(learningRate.getText());
-            Double eHold = Double.parseDouble(threshHold.getText());
-            viewController.initializeNetwork(lRate, eHold);
+        viewController.initializeNetwork();
+        if (!rate.equals("") && hold.equals("")) {
+            viewController.setLearningRate(Double.parseDouble(rate));
+        }
+        else if (rate.equals("") && !hold.equals("")) {
+            viewController.setErrorThreshold(Double.parseDouble(hold));
+        }
+        else {
+            viewController.setLearningRate(Double.parseDouble(rate));
+            viewController.setErrorThreshold(Double.parseDouble(hold));
         }
         double[] inputValues = viewController.getInputValues();
         for (int i = 0; i < inputLabels.length; i++)
@@ -108,12 +112,12 @@ public class JavaFxView extends Application{
         double[] hiddenValues = viewController.getHiddenValues();
         for (int i = 0; i < hiddenValues.length; i++)
             hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
-        stoppedLabel.setText("");
+        statusLabel.setText("");
     }
 
     private static void startBackProp(){
         controller.startBackpropagation();
-        stoppedLabel.setText("");
+        statusLabel.setText("");
     }
 
     public static void changeValues(){
@@ -152,8 +156,8 @@ public class JavaFxView extends Application{
         epochLabel.setText("Epoch: " + viewController.getEpoch());
     }
 
-    public static void backPropagationStopped() {
-        stoppedLabel.setText("Backpropagation stopped!");
+    public static void backPropagationStatus(String s) {
+        statusLabel.setText(s);
     }
 
     private HBox createTargets() {
@@ -337,8 +341,10 @@ public class JavaFxView extends Application{
         labelbt2.setPadding(new Insets(10, 10, 10, 10));
 
         learningRate = new TextField();
+        learningRate.setText(String.format(Locale.US, "%f", viewController.getDefaultLearningRate()));
         hbMid.getChildren().addAll(labelbt, learningRate);
         threshHold = new TextField();
+        threshHold.setText(String.format(Locale.US, "%f", viewController.getDefaultErrorThreshold()));
         hbMid.getChildren().addAll(labelbt2, threshHold);
 
         return hbMid;
@@ -349,10 +355,10 @@ public class JavaFxView extends Application{
         hbMid.setAlignment(Pos.CENTER);
         hbMid.setMinWidth(980);
 
-        stoppedLabel = new Label("");
-        stoppedLabel.setPadding(new Insets(10, 10, 10, 10));
+        statusLabel = new Label("");
+        statusLabel.setPadding(new Insets(10, 10, 10, 10));
 
-        hbMid.getChildren().addAll(stoppedLabel);
+        hbMid.getChildren().addAll(statusLabel);
 
         return hbMid;
     }

@@ -16,9 +16,9 @@ public class ViewController {
         this.backPropagationNetwork = backPropagationNetwork;
     }
 
-    public void initializeNetwork(Double learningRate, Double threshhold) {
+    public void initializeNetwork() {
         try {
-            backPropagationNetwork.initialize(learningRate,threshhold);
+            backPropagationNetwork.initialize();
         } catch (InitialisationException e) {
             logger.error(e);
         }
@@ -50,5 +50,22 @@ public class ViewController {
 
     public int getEpoch() {
         return backPropagationNetwork.getEpoch();
+    }
+
+    public double getDefaultLearningRate() {
+        return backPropagationNetwork.getLearningRate();
+    }
+
+    public double getDefaultErrorThreshold() {
+        return backPropagationNetwork.getErrorTreshold();
+    }
+
+
+    public void setLearningRate(double learningRate) {
+        backPropagationNetwork.setLearningRate(learningRate);
+    }
+
+    public void setErrorThreshold(double errorThreshold) {
+        backPropagationNetwork.setErrorTreshold(errorThreshold);
     }
 }

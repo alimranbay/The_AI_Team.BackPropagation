@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  * This class
  */
 public class BackPropagationController implements Controller {
-    private static final int WAIT_TIME_MILLIS = 50;
+    private static final int WAIT_TIME_MILLIS = 10;
     private static final Logger logger = LogManager.getLogger(BackPropagationController.class);
     private BackPropagationNetwork backPropagationNetwork;
     private double[] tempHiddens;
@@ -25,18 +25,24 @@ public class BackPropagationController implements Controller {
 
     @Override
     public void stopBackpropagation() {
-        logger.trace("Stopping BackPropagation.");
-        th.stop();
-        JavaFxView.backPropagationStopped();
+        if (th.isAlive()) {
+            String stoppedMessage = "Backpropagation Stopped";
+            th.stop();
+            JavaFxView.backPropagationStatus(stoppedMessage);
+            logger.trace(stoppedMessage);
+        }
     }
 
     @Override
     public void startBackpropagation() {
-        logger.trace("Starting BackPropagation.");
+        String runningMessage = "Starting BackPropagation.";
+        logger.trace(runningMessage);
+
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                for (int i = 0; i < backPropagationNetwork.getMAX_EPOCH(); i++) {
+//TODO                JavaFxView.backPropagationStatus(runningMessage);
+                for (int i = 0; i <= backPropagationNetwork.getMAX_EPOCH(); i++) {
                     final int epoch = i;
                     Platform.runLater(() -> {
                         backPropagationNetwork.setEpoch(epoch);
@@ -57,6 +63,10 @@ public class BackPropagationController implements Controller {
                             }
                         }
                         if (allOutputsAreGood) {
+                            stopBackpropagation();
+                            return;
+                        }
+                        if (epoch == backPropagationNetwork.getMAX_EPOCH()) {
                             stopBackpropagation();
                             return;
                         }
