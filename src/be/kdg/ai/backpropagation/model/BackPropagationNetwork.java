@@ -28,10 +28,10 @@ public class BackPropagationNetwork {
     private double[] targets;
 
     private int epoch; // Aantal leeriteraties
-    private final int MAX_EPOCH = 10_000;
+    private final int MAX_EPOCH = 20_000;
 
     private double[] errors; // Verschil tussen waarden van output cellen en target values na elke iteratie
-    private double errorTreshold = 0.0001; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen
+    private double errorTreshold = 0.00001; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen
 
     private double momentum;
     private double learningRate = 0.5; // VOORLOPIG
@@ -54,8 +54,6 @@ public class BackPropagationNetwork {
     public BackPropagationNetwork(int numberOfHiddenCells, int numberOfOutputCells){
         this.numberOfHiddenCells = numberOfHiddenCells;
         this.numberOfOutputCells = numberOfOutputCells;
-
-//        initialize();
     }
 
 
@@ -265,5 +263,9 @@ public class BackPropagationNetwork {
 
     public void setInputCells(double[] inputCells) {
         this.inputCells = inputCells;
+    }
+
+    public void setEpoch(int epoch) {
+        this.epoch = epoch;
     }
 }

@@ -27,6 +27,7 @@ public class BackPropagationController implements Controller {
     public void stopBackpropagation() {
         logger.trace("Stopping BackPropagation.");
         th.stop();
+        JavaFxView.backPropagationStopped();
     }
 
     @Override
@@ -36,7 +37,9 @@ public class BackPropagationController implements Controller {
             @Override
             public Void call() throws Exception {
                 for (int i = 0; i < backPropagationNetwork.getMAX_EPOCH(); i++) {
+                    final int epoch = i;
                     Platform.runLater(() -> {
+                        backPropagationNetwork.setEpoch(epoch);
                         computeOutputs();
                         updateWeights();
                         JavaFxView.changeValues();

@@ -47,4 +47,8 @@ public class ViewController {
     public double[][] getHoWeights() {
         return backPropagationNetwork.getHoWeights();
     }
+
+    public int getEpoch() {
+        return backPropagationNetwork.getEpoch();
+    }
 }

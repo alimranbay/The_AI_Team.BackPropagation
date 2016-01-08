@@ -30,6 +30,8 @@ public class JavaFxView extends Application{
     private static ArrayList<Label> ihLabels = new ArrayList<>();
     private static ArrayList<Label> hoLabels = new ArrayList<>();
     private static Label[] outputLabels;
+    private static Label stoppedLabel;
+    private static Label epochLabel;
 
     TextField learningRate;
     TextField threshHold;
@@ -76,6 +78,8 @@ public class JavaFxView extends Application{
         grid.add(createOutputCells(),0,5);
         grid.add(createTargets(),0,6);
         grid.add(createTextField(),0,7);
+        grid.add(createStoppedLabels(),0,8);
+        grid.add(createEpochLabels(),0,9);
 
         initBtn.setOnMouseClicked(event -> initialize());
         startBtn.setOnMouseClicked(event -> startBackProp());
@@ -104,10 +108,12 @@ public class JavaFxView extends Application{
         double[] hiddenValues = viewController.getHiddenValues();
         for (int i = 0; i < hiddenValues.length; i++)
             hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
+        stoppedLabel.setText("");
     }
 
     private static void startBackProp(){
         controller.startBackpropagation();
+        stoppedLabel.setText("");
     }
 
     public static void changeValues(){
@@ -143,6 +149,11 @@ public class JavaFxView extends Application{
         double[] hiddenValues = viewController.getHiddenValues();
         for (int i = 0; i < hiddenValues.length; i++)
             hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
+        epochLabel.setText("Epoch: " + viewController.getEpoch());
+    }
+
+    public static void backPropagationStopped() {
+        stoppedLabel.setText("Backpropagation stopped!");
     }
 
     private HBox createTargets() {
@@ -329,6 +340,32 @@ public class JavaFxView extends Application{
         hbMid.getChildren().addAll(labelbt, learningRate);
         threshHold = new TextField();
         hbMid.getChildren().addAll(labelbt2, threshHold);
+
+        return hbMid;
+    }
+
+    private HBox createStoppedLabels(){
+        HBox hbMid = new HBox(20);
+        hbMid.setAlignment(Pos.CENTER);
+        hbMid.setMinWidth(980);
+
+        stoppedLabel = new Label("");
+        stoppedLabel.setPadding(new Insets(10, 10, 10, 10));
+
+        hbMid.getChildren().addAll(stoppedLabel);
+
+        return hbMid;
+    }
+
+    private HBox createEpochLabels(){
+        HBox hbMid = new HBox(20);
+        hbMid.setAlignment(Pos.CENTER);
+        hbMid.setMinWidth(980);
+
+        epochLabel = new Label("");
+        epochLabel.setPadding(new Insets(10, 10, 10, 10));
+
+        hbMid.getChildren().addAll(epochLabel);
 
         return hbMid;
     }
