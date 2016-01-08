@@ -1,19 +1,27 @@
 package be.kdg.ai.backpropagation.controller;
 
 import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
+import be.kdg.ai.backpropagation.model.InitialisationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A controller class that controls input and output
  */
 public class ViewController {
     private BackPropagationNetwork backPropagationNetwork;
+    private final static Logger logger = LogManager.getLogger(ViewController.class);
 
     public ViewController(BackPropagationNetwork backPropagationNetwork) {
         this.backPropagationNetwork = backPropagationNetwork;
     }
 
     public void initializeNetwork(Double learningRate, Double threshhold) {
-        backPropagationNetwork.initialize(learningRate,threshhold);
+        try {
+            backPropagationNetwork.initialize(learningRate,threshhold);
+        } catch (InitialisationException e) {
+            logger.error(e);
+        }
     }
 
     public double[] getInputValues(){

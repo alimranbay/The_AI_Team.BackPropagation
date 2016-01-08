@@ -4,12 +4,15 @@ import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
 import be.kdg.ai.backpropagation.view.JavaFxView;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class
  */
 public class BackPropagationController implements Controller {
     private static final int WAIT_TIME_MILLIS = 50;
+    private static final Logger logger = LogManager.getLogger(BackPropagationController.class);
     private BackPropagationNetwork backPropagationNetwork;
     private double[] tempHiddens;
     Thread th;
@@ -22,11 +25,13 @@ public class BackPropagationController implements Controller {
 
     @Override
     public void stopBackpropagation() {
+        logger.trace("Stopping BackPropagation.");
         th.stop();
     }
 
     @Override
     public void startBackpropagation() {
+        logger.trace("Starting BackPropagation.");
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -49,7 +54,6 @@ public class BackPropagationController implements Controller {
                             }
                         }
                         if (allOutputsAreGood) {
-                            System.out.println("STOPPED");
                             stopBackpropagation();
                             return;
                         }

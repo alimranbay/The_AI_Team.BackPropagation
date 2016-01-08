@@ -58,7 +58,13 @@ public class BackPropagationNetwork {
 //        initialize();
     }
 
-    public void initialize(Double lRate, Double threshhold){
+
+    public void initialize(double lRate, double threshhold) throws InitialisationException{
+        if(inputCells.length <= 0) throw new InitialisationException("Number of inputcells cannot be less than 1.");
+        if(numberOfHiddenCells <= 0) throw new InitialisationException("Number of hiddencells cannot be less than 1.");
+        if(numberOfOutputCells <= 0) throw new InitialisationException("Number of outputcells cannot be less than 1.");
+        if(lRate <= 0) throw  new InitialisationException("Learning rate cannot be zero or less.");
+
         errorTreshold = threshhold;
         learningRate = lRate;
         Random random = new Random();
