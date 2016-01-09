@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class
+ * The backpropagation algorithm
  */
 public class BackPropagationController implements Controller {
     private static final int WAIT_TIME_MILLIS = 10;
@@ -128,6 +128,7 @@ public class BackPropagationController implements Controller {
     public void updateWeights() {
         computeErrors();
 
+        //region get neccessary cells and values from the network
         double[] outputCells = backPropagationNetwork.getOutputCells();
         double[] inputCells = backPropagationNetwork.getInputCells();
         double[] hiddenCells = backPropagationNetwork.getHiddenCells();
@@ -157,8 +158,9 @@ public class BackPropagationController implements Controller {
         double[] hPreviousBiasesDelta = backPropagationNetwork.gethPreviousBiasesDelta();
         double[][] hoPreviousWeightsDelta = backPropagationNetwork.getHoPreviousWeightsDelta();
         double[] oPreviousBiasesDelta = backPropagationNetwork.getoPreviousBiasesDelta();
+        //endregion
 
-        // Calculate gradients
+        //region Calculate gradients
         for (int i = 0; i < numberOfOutputcells; i++) {
             derivative = (1 - outputCells[i]) * outputCells[i];
             outputGradients[i] = derivative * (targetValues[i] - outputCells[i]);
@@ -173,8 +175,9 @@ public class BackPropagationController implements Controller {
             hiddenGradients[i] = derivative * sum;
         }
         backPropagationNetwork.setHiddenGradients(hiddenGradients);
+        //endregion
 
-        // update weights & biases
+        //region update weights & biases
         for (int i = 0; i < numberOfInputCells; i++)
             for (int j = 0; j < numberOfHiddenCells; j++) {
                 delta = learningRate * hiddenGradients[j] * inputCells[i];
@@ -212,10 +215,14 @@ public class BackPropagationController implements Controller {
         }
         backPropagationNetwork.setoBiases(outputBiases);
         backPropagationNetwork.setoPreviousBiasesDelta(oPreviousBiasesDelta);
-
-
+        //endregion
     }
 
+    /**
+     * Prevents that the updating of the network happens too abrupt
+     * @param x the value where the hyperTan is going to be calculated for
+     * @return hyperTan
+     */
     private static double hyperTanFunction(double x)
     {
         if (x < -45.0)
@@ -225,6 +232,11 @@ public class BackPropagationController implements Controller {
         return Math.tanh(x);
     }
 
+    /**
+     * same as @hyperTanFunction
+     * @param x the value where the sigmoid is going to be calculated for
+     * @return sigmoid
+     */
     private static double sigmoidFunction(double x)
     {
         if (x < -45.0)

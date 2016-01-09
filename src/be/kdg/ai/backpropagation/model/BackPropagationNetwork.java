@@ -3,7 +3,7 @@ package be.kdg.ai.backpropagation.model;
 import java.util.Random;
 
 /**
- * A backpropagetion algorithm.
+ * The backpropagation network that's going to be used in the backpropagation algorithm
  */
 public class BackPropagationNetwork {
 
@@ -56,7 +56,10 @@ public class BackPropagationNetwork {
         this.numberOfOutputCells = numberOfOutputCells;
     }
 
-
+    /**
+     * Initializes the backpropagation network
+     * @throws InitialisationException
+     */
     public void initialize() throws InitialisationException{
         if(inputCells.length <= 0) throw new InitialisationException("Number of inputcells cannot be less than 1.");
         if(numberOfHiddenCells <= 0) throw new InitialisationException("Number of hiddencells cannot be less than 1.");
