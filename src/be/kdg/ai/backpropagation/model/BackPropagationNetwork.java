@@ -10,8 +10,8 @@ public class BackPropagationNetwork {
     //region Fields
 
     private int numberOfInputCells;
-    private int numberOfHiddenCells;
-    private int numberOfOutputCells;
+    private final int numberOfHiddenCells;
+    private final int numberOfOutputCells;
 
     private double[] inputCells = new double[]{1.0, -2.0, 3.0};                // Hard zetten op 1.0, -2.0 en 3.0
 
@@ -28,7 +28,7 @@ public class BackPropagationNetwork {
     private double[] targets;
 
     private int epoch; // Aantal leeriteraties
-    private final int MAX_EPOCH = 10_000;
+    private static final int MAX_EPOCH = 10_000;
 
     private double[] errors; // Verschil tussen waarden van output cellen en target values na elke iteratie
     private double errorTreshold = 0.0001; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen

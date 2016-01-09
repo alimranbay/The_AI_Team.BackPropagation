@@ -14,7 +14,7 @@ import java.util.Scanner;
 /**
  * This class starts the app.
  */
-public class DemoALetter {
+class DemoALetter {
     public static void main(String[] args) {
         BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
         Controller controller = new BackPropagationController(network);
@@ -45,7 +45,7 @@ public class DemoALetter {
         JavaFxView.launch(JavaFxView.class, args);
     }
 
-    public static double[] convertDoubles(List<Double> doubles)
+    private static double[] convertDoubles(List<Double> doubles)
     {
         double[] ret = new double[doubles.size()];
         Iterator<Double> iterator = doubles.iterator();

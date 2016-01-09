@@ -13,9 +13,9 @@ import org.apache.logging.log4j.Logger;
 public class BackPropagationController implements Controller {
     private static final int WAIT_TIME_MILLIS = 10;
     private static final Logger logger = LogManager.getLogger(BackPropagationController.class);
-    private BackPropagationNetwork backPropagationNetwork;
-    private double[] tempHiddens;
-    Thread th;
+    private final BackPropagationNetwork backPropagationNetwork;
+    private final double[] tempHiddens;
+    private Thread th;
 
     public BackPropagationController(BackPropagationNetwork backPropagationNetwork) {
         this.backPropagationNetwork = backPropagationNetwork;
@@ -27,7 +27,7 @@ public class BackPropagationController implements Controller {
     public void stopBackpropagation() {
         if (th.isAlive()) {
             String stoppedMessage = "Backpropagation Stopped";
-            th.stop();
+            th.interrupt();
             JavaFxView.backPropagationStatus(stoppedMessage);
             logger.trace(stoppedMessage);
         }
@@ -35,16 +35,16 @@ public class BackPropagationController implements Controller {
 
     @Override
     public void startBackpropagation() {
-        String runningMessage = "Starting BackPropagation.";
+        String runningMessage = "Running BackPropagation.";
         logger.trace(runningMessage);
 
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-//TODO                JavaFxView.backPropagationStatus(runningMessage);
                 for (int i = 0; i <= backPropagationNetwork.getMAX_EPOCH(); i++) {
                     final int epoch = i;
                     Platform.runLater(() -> {
+                        if (epoch == 0) JavaFxView.backPropagationStatus(runningMessage);
                         backPropagationNetwork.setEpoch(epoch);
                         computeOutputs();
                         updateWeights();
@@ -55,21 +55,16 @@ public class BackPropagationController implements Controller {
                         double maxError = backPropagationNetwork.getErrorTreshold();
                         boolean allOutputsAreGood = false;
                         for (double error : errors) {
-                            if (error < maxError) {
-                                allOutputsAreGood = true;
-                            } else {
+                            if (error < maxError) allOutputsAreGood = true;
+                            else {
                                 allOutputsAreGood = false;
                                 break;
                             }
                         }
-                        if (allOutputsAreGood) {
+                        if (allOutputsAreGood)
                             stopBackpropagation();
-                            return;
-                        }
-                        if (epoch == backPropagationNetwork.getMAX_EPOCH()) {
+                        if (epoch == backPropagationNetwork.getMAX_EPOCH())
                             stopBackpropagation();
-                            return;
-                        }
                     });
                     Thread.sleep(WAIT_TIME_MILLIS);
                 }
@@ -131,8 +126,7 @@ public class BackPropagationController implements Controller {
 
     @Override
     public void updateWeights() {
-        double[] errors = computeErrors();
-
+        computeErrors();
 
         double[] outputCells = backPropagationNetwork.getOutputCells();
         double[] inputCells = backPropagationNetwork.getInputCells();

@@ -5,7 +5,6 @@ import be.kdg.ai.backpropagation.controller.ViewController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,14 +26,14 @@ public class JavaFxView extends Application{
     private static Label[] inputLabels;
     private static Label[] targetLabels;
     private static Label[] hiddenLabels;
-    private static ArrayList<Label> ihLabels = new ArrayList<>();
-    private static ArrayList<Label> hoLabels = new ArrayList<>();
+    private static final ArrayList<Label> ihLabels = new ArrayList<>();
+    private static final ArrayList<Label> hoLabels = new ArrayList<>();
     private static Label[] outputLabels;
     private static Label statusLabel;
     private static Label epochLabel;
 
-    TextField learningRate;
-    TextField threshHold;
+    private TextField learningRate;
+    private TextField threshHold;
 
     public static void setController(Controller controller) {
         JavaFxView.controller = controller;
@@ -46,8 +45,6 @@ public class JavaFxView extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        Group root = new Group();
         primaryStage.setTitle("Neurale netwerk");
         GridPane grid = new GridPane();
         Scene scene = new Scene(grid, 1200, 600);
@@ -57,7 +54,6 @@ public class JavaFxView extends Application{
         grid.setVgap(10);
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.getStyleClass().add("grid");
-        // grid.setStyle("-fx-background-color: cadetblue;");
 
         HBox hbTop = new HBox(10);
         hbTop.setPadding(new Insets(10, 10, 10, 10));
@@ -112,7 +108,6 @@ public class JavaFxView extends Application{
         double[] hiddenValues = viewController.getHiddenValues();
         for (int i = 0; i < hiddenValues.length; i++)
             hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
-        statusLabel.setText("");
     }
 
     private static void startBackProp(){

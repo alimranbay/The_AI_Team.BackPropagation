@@ -7,7 +7,7 @@ import be.kdg.ai.backpropagation.view.JavaFxView;
 /**
  * This class starts the app.
  */
-public class Demo {
+class Demo {
     public static void main(String[] args) {
         BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
         Controller controller = new BackPropagationController(network);

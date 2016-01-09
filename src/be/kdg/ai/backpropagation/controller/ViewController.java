@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
  * A controller class that controls input and output
  */
 public class ViewController {
-    private BackPropagationNetwork backPropagationNetwork;
+    private final BackPropagationNetwork backPropagationNetwork;
     private final static Logger logger = LogManager.getLogger(ViewController.class);
 
     public ViewController(BackPropagationNetwork backPropagationNetwork) {
