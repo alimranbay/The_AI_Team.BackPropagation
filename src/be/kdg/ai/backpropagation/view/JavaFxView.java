@@ -118,37 +118,37 @@ public class JavaFxView extends Application{
     public static void changeValues(){
         double[][] ihValues = viewController.getIhWeights();
         ArrayList<Double> tempIHValues = new ArrayList<>();
+        ArrayList<Double> tempWeightValues =
+                getWeightValues(inputLabels.length, hiddenLabels.length, ihValues, tempIHValues);
 
-        for(int i = 0; i < inputLabels.length; i++){
-            for(int j = 0; j < hiddenLabels.length; j++){
-                tempIHValues.add(ihValues[i][j]);
-            }
-        }
-
-        for(int i = 0; i < tempIHValues.size();i++){
-            ihLabels.get(i).setText(String.format("%.4f", tempIHValues.get(i)));
-        }
+        for(int i = 0; i < tempWeightValues.size();i++)
+            ihLabels.get(i).setText(String.format("%.4f", tempWeightValues.get(i)));
 
         double[][] hoValues = viewController.getHoWeights();
         ArrayList<Double> tempHoValues = new ArrayList<>();
-        for(int i = 0; i < hiddenLabels.length; i++){
-            for(int j = 0; j < outputLabels.length; j++){
-                tempHoValues.add(hoValues[i][j]);
-            }
-        }
+        tempWeightValues =
+                getWeightValues(hiddenLabels.length, outputLabels.length, hoValues, tempHoValues);
 
-        for(int i = 0; i < tempHoValues.size();i++){
-            hoLabels.get(i).setText(String.format("%.4f", tempHoValues.get(i)));
-        }
+        for(int i = 0; i < tempWeightValues.size(); i++)
+            hoLabels.get(i).setText(String.format("%.4f", tempWeightValues.get(i)));
 
         double[] outputValues = viewController.getOutputCells();
         for (int i = 0; i < outputValues.length; i++)
             outputLabels[i].setText(String.format("%.4f", outputValues[i]));
-
         double[] hiddenValues = viewController.getHiddenValues();
         for (int i = 0; i < hiddenValues.length; i++)
             hiddenLabels[i].setText(String.format("%.4f", hiddenValues[i]));
         epochLabel.setText("Epoch: " + viewController.getEpoch());
+    }
+
+    private static ArrayList<Double> getWeightValues(int in, int out, double[][] weightValues, ArrayList<Double> tempWeightValues) {
+        for(int i = 0; i < in; i++){
+            for(int j = 0; j < out; j++){
+                tempWeightValues.add(weightValues[i][j]);
+            }
+        }
+
+        return tempWeightValues;
     }
 
     public static void backPropagationStatus(String s) {
