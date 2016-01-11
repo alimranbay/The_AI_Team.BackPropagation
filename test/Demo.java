@@ -1,5 +1,6 @@
 import be.kdg.ai.backpropagation.controller.BackPropagationController;
 import be.kdg.ai.backpropagation.controller.Controller;
+import be.kdg.ai.backpropagation.controller.CsvWriter;
 import be.kdg.ai.backpropagation.controller.ViewController;
 import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
 import be.kdg.ai.backpropagation.view.JavaFxView;
@@ -10,7 +11,8 @@ import be.kdg.ai.backpropagation.view.JavaFxView;
 class Demo {
     public static void main(String[] args) {
         BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
-        Controller controller = new BackPropagationController(network);
+        CsvWriter csvWriter = new CsvWriter(network, "demo.csv");
+        Controller controller = new BackPropagationController(network, csvWriter);
 
         ViewController viewController = new ViewController(network);
         JavaFxView javaFxView = new JavaFxView();

@@ -1,5 +1,6 @@
 import be.kdg.ai.backpropagation.controller.BackPropagationController;
 import be.kdg.ai.backpropagation.controller.Controller;
+import be.kdg.ai.backpropagation.controller.CsvWriter;
 import be.kdg.ai.backpropagation.controller.ViewController;
 import be.kdg.ai.backpropagation.model.BackPropagationNetwork;
 import be.kdg.ai.backpropagation.view.JavaFxView;
@@ -14,17 +15,21 @@ import java.util.Scanner;
 /**
  * This class starts the app.
  */
-class DemoALetter {
+class DemoLetter {
     public static void main(String[] args) {
         BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
-        Controller controller = new BackPropagationController(network);
+        CsvWriter csvWriter = new CsvWriter(network);
+        Controller controller = new BackPropagationController(network, csvWriter);
 
-        //Load the A-letter
+        //Load the character
         List<Double> inputCells = new ArrayList<>();
         Scanner scanner;
         try {
             String filePath = new File("").getAbsolutePath();
-            filePath = filePath.concat("//files//A.csv");
+            // choose A.csv or B.csv
+            String character = "A";
+            csvWriter.setFileName(character + "_output.csv");
+            filePath = filePath.concat("//files//" + character + ".csv");
             scanner = new Scanner(new File(filePath));
             scanner.useDelimiter(",");
             while(scanner.hasNext()){

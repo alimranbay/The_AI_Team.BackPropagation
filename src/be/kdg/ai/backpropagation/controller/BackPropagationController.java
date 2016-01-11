@@ -16,9 +16,11 @@ public class BackPropagationController implements Controller {
     private final BackPropagationNetwork backPropagationNetwork;
     private final double[] tempHiddens;
     private Thread th;
+    private CsvWriter csvWriter;
 
-    public BackPropagationController(BackPropagationNetwork backPropagationNetwork) {
+    public BackPropagationController(BackPropagationNetwork backPropagationNetwork, CsvWriter csvWriter) {
         this.backPropagationNetwork = backPropagationNetwork;
+        this.csvWriter = csvWriter;
         tempHiddens = new double[backPropagationNetwork.getNumberOfHiddenCells()];
         th = new Thread();
     }
@@ -30,8 +32,11 @@ public class BackPropagationController implements Controller {
             th.interrupt();
             JavaFxView.backPropagationStatus(stoppedMessage);
             logger.trace(stoppedMessage);
+
+            csvWriter.saveCurrentNetworkAsCsv();
         }
     }
+
 
     @Override
     public void startBackpropagation() {
@@ -108,8 +113,6 @@ public class BackPropagationController implements Controller {
         for (int i = 0; i < numberOfOutputCells; i++)
             outputCells[i] = sigmoidFunction(outputCells[i]);
         backPropagationNetwork.setOutputCells(outputCells);
-
-//        updateWeights();
 
         return outputCells;
     }
