@@ -47,7 +47,7 @@ public class JavaFxView extends Application{
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Neurale netwerk");
         GridPane grid = new GridPane();
-        Scene scene = new Scene(grid, 1200, 600);
+        Scene scene = new Scene(grid, 1200, 700);
         scene.getStylesheets().add("/be/kdg/ai/backpropagation/view/css/layout.css");
 
         grid.setHgap(10);
@@ -67,8 +67,12 @@ public class JavaFxView extends Application{
         hbTop.getChildren().add(startBtn);
 
         grid.add(hbTop, 0, 0);
-        grid.add(createInputCells(),0,1);
-        grid.add(createInputToHidden(),0,2);
+        if(viewController.getInputValues().length<=3){
+            grid.add(createInputCells(),0,1);
+            grid.add(createInputToHidden(),0,2);
+        }else {
+            grid.add(createInputCellsLetter(),0,1);
+        }
         grid.add(createHiddenCells(),0,3);
         grid.add(createHiddenToOutput(),0,4);
         grid.add(createOutputCells(),0,5);
@@ -121,8 +125,8 @@ public class JavaFxView extends Application{
         ArrayList<Double> tempWeightValues =
                 getWeightValues(inputLabels.length, hiddenLabels.length, ihValues, tempIHValues);
 
-        for(int i = 0; i < tempWeightValues.size();i++)
-            ihLabels.get(i).setText(String.format("%.4f", tempWeightValues.get(i)));
+        //for(int i = 0; i < tempWeightValues.size();i++)
+          //  ihLabels.get(i).setText(String.format("%.4f", tempWeightValues.get(i)));
 
         double[][] hoValues = viewController.getHoWeights();
         ArrayList<Double> tempHoValues = new ArrayList<>();
@@ -177,9 +181,8 @@ public class JavaFxView extends Application{
     }
 
     private HBox createInputCells(){
-        final int NUMBER_OF_INPUTS = 3;
+        final int NUMBER_OF_INPUTS = viewController.getInputValues().length;
         inputLabels = new Label[NUMBER_OF_INPUTS];
-
         HBox hbMid = new HBox(200);
         hbMid.setAlignment(Pos.CENTER);
         hbMid.setMinWidth(980);
@@ -193,7 +196,32 @@ public class JavaFxView extends Application{
             inputLabels[i-1] = temp;
         }
 
-        return hbMid;
+            return hbMid;
+    }
+
+    private GridPane createInputCellsLetter(){
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(2); //horizontal gap in pixels => that's what you are asking for
+        grid.setVgap(2);        final int NUMBER_OF_INPUTS = viewController.getInputValues().length;
+        inputLabels = new Label[NUMBER_OF_INPUTS];
+        ArrayList <Label> list = new ArrayList<>();
+        for(int  j = 0; j< 9;j++){
+            for (int i = 0; i < 7; i++){
+                Label temp = new Label("0");
+                grid.add(temp,i,j);
+                temp.setPadding(new Insets(3, 3, 3, 3));
+                temp.getStyleClass().add("inputLetter");
+
+                list.add(temp);
+            }
+        }
+
+        for(int i = 0; i < list.size();i++){
+            inputLabels[i] = list.get(i);
+        }
+
+        return grid;
     }
 
     private HBox createHiddenCells(){
