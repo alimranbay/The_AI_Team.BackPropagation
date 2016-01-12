@@ -18,12 +18,6 @@ public class CsvWriter {
     private static final Logger logger = LogManager.getLogger(CsvWriter.class);
     private String fileName;
 
-
-    public CsvWriter(BackPropagationNetwork backPropagationNetwork, String fileName) {
-        this.backPropagationNetwork = backPropagationNetwork;
-        this.fileName = fileName;
-    }
-
     public CsvWriter(BackPropagationNetwork backPropagationNetwork) {
         this.backPropagationNetwork = backPropagationNetwork;
     }

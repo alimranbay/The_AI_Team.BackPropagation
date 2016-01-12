@@ -11,7 +11,8 @@ import be.kdg.ai.backpropagation.view.JavaFxView;
 class Demo {
     public static void main(String[] args) {
         BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
-        CsvWriter csvWriter = new CsvWriter(network, "demo.csv");
+        CsvWriter csvWriter = new CsvWriter(network);
+        csvWriter.setFileName("demo.csv");
         Controller controller = new BackPropagationController(network, csvWriter);
 
         ViewController viewController = new ViewController(network);
