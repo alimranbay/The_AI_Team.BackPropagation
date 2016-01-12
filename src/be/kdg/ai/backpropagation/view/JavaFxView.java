@@ -125,8 +125,10 @@ public class JavaFxView extends Application{
         ArrayList<Double> tempWeightValues =
                 getWeightValues(inputLabels.length, hiddenLabels.length, ihValues, tempIHValues);
 
-        //for(int i = 0; i < tempWeightValues.size();i++)
-          //  ihLabels.get(i).setText(String.format("%.4f", tempWeightValues.get(i)));
+        if(viewController.getInputValues().length<=3){
+        for(int i = 0; i < tempWeightValues.size();i++)
+            ihLabels.get(i).setText(String.format("%.4f", tempWeightValues.get(i)));
+        }
 
         double[][] hoValues = viewController.getHoWeights();
         ArrayList<Double> tempHoValues = new ArrayList<>();

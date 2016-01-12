@@ -27,7 +27,7 @@ class DemoLetter {
         try {
             String filePath = new File("").getAbsolutePath();
             // choose A.csv or B.csv
-            String character = "A";
+            String character = "B";
             csvWriter.setFileName(character + "_output.csv");
             filePath = filePath.concat("//files//" + character + ".csv");
             scanner = new Scanner(new File(filePath));
