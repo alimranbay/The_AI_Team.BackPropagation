@@ -32,10 +32,10 @@ public class BackPropagationNetwork {
     private static final int MAX_EPOCH = 10_000;
 
     private double[] errors; // Verschil tussen waarden van output cellen en target values na elke iteratie
-    private double errorTreshold; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen
+    private double errorTreshold; // If error < errorTreshold dan kan het leren stoppen
 
     private double momentum;
-    private double learningRate; // VOORLOPIG
+    private double learningRate;
 
     private double[] outputGradients;
     private double[] hiddenGradients;
@@ -69,7 +69,7 @@ public class BackPropagationNetwork {
         if(inputCells.length <= 0) throw new InitialisationException("Number of inputcells cannot be less than 1.");
         if(numberOfHiddenCells <= 0) throw new InitialisationException("Number of hiddencells cannot be less than 1.");
         if(numberOfOutputCells <= 0) throw new InitialisationException("Number of outputcells cannot be less than 1.");
-//        if(lRate <= 0) throw  new InitialisationException("Learning rate cannot be zero or less.");
+        if(learningRate <= 0) throw  new InitialisationException("Learning rate cannot be zero or less.");
 
         Random random = new Random();
 
