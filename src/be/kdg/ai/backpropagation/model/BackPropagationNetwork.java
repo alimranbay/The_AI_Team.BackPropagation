@@ -9,6 +9,7 @@ public class BackPropagationNetwork {
 
     //region Fields
 
+    private boolean isInitialized;
     private int numberOfInputCells;
     private final int numberOfHiddenCells;
     private final int numberOfOutputCells;
@@ -28,13 +29,13 @@ public class BackPropagationNetwork {
     private double[] targets;
 
     private int epoch; // Aantal leeriteraties
-    private static final int MAX_EPOCH = 10_000;
+    private static final int MAX_EPOCH = 100;
 
     private double[] errors; // Verschil tussen waarden van output cellen en target values na elke iteratie
-    private double errorTreshold = 0.0001; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen
+    private double errorTreshold; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen
 
     private double momentum;
-    private double learningRate = 0.5; // VOORLOPIG
+    private double learningRate; // VOORLOPIG
 
     private double[] outputGradients;
     private double[] hiddenGradients;
@@ -51,9 +52,13 @@ public class BackPropagationNetwork {
      * @param numberOfHiddenCells .
      * @param numberOfOutputCells .
      */
-    public BackPropagationNetwork(int numberOfHiddenCells, int numberOfOutputCells){
+    public BackPropagationNetwork(int numberOfHiddenCells, int numberOfOutputCells, double errorTreshold, double learningRate, double momentum){
+        isInitialized = false;
         this.numberOfHiddenCells = numberOfHiddenCells;
         this.numberOfOutputCells = numberOfOutputCells;
+        this.errorTreshold = errorTreshold;
+        this.learningRate = learningRate;
+        this.momentum = momentum;
     }
 
     /**
@@ -107,8 +112,10 @@ public class BackPropagationNetwork {
                 hoWeights[i][j] = random.nextDouble() / 100;
         }
 
-
+        isInitialized = true;
     }
+
+    public boolean isInitialized() { return isInitialized; }
 
     public double[] getInputCells() {
         return inputCells;
@@ -150,8 +157,8 @@ public class BackPropagationNetwork {
         return numberOfOutputCells;
     }
 
-    public void setHiddenCell(int index, double hiddelCell) {
-        hiddenCells[index] = hiddelCell;
+    public void setHiddenCell(int index, double hiddenCell) {
+        hiddenCells[index] = hiddenCell;
     }
 
     public double[] getOutputCells() {

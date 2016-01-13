@@ -29,10 +29,18 @@ public class BackPropagationController implements Controller {
     public void stopBackpropagation() {
         if (th.isAlive()) {
             String stoppedMessage = "Backpropagation Stopped";
+            String endMessage = "End result("+backPropagationNetwork.getEpoch()+"):\n";
+            for (int i = 0; i < backPropagationNetwork.getOutputCells().length; i++) {
+                endMessage += String.format("Output %d : %.8f -- ", i, backPropagationNetwork.getOutputCells()[i]);
+            }
+            endMessage += "\n";
+            for (int i = 0; i < backPropagationNetwork.getTargets().length; i++) {
+                endMessage += String.format("Target %d : %.8f -- ", i, backPropagationNetwork.getTargets()[i]);
+            }
             th.interrupt();
             JavaFxView.backPropagationStatus(stoppedMessage);
             logger.trace(stoppedMessage);
-
+            logger.trace(endMessage);
             csvWriter.saveCurrentNetworkAsCsv();
         }
     }
@@ -40,6 +48,13 @@ public class BackPropagationController implements Controller {
 
     @Override
     public void startBackpropagation() {
+
+        if (!backPropagationNetwork.isInitialized()){
+            String errorMessage = "Network has not been initialized yet.";
+            logger.error(errorMessage);
+            return;
+        }
+
         String runningMessage = "Running BackPropagation.";
         logger.trace(runningMessage);
 

@@ -10,7 +10,12 @@ import be.kdg.ai.backpropagation.view.JavaFxView;
  */
 class Demo {
     public static void main(String[] args) {
-        BackPropagationNetwork network = new BackPropagationNetwork(4, 2);
+        //default values
+        int numberOfHiddenCells =4, numberOfOutputCells =2;
+        double errorThreshold=0.0001, learningRate=0.5, momentum=0.1;
+
+        BackPropagationNetwork network = new BackPropagationNetwork(numberOfHiddenCells, numberOfOutputCells, errorThreshold, learningRate, momentum);
+
         CsvWriter csvWriter = new CsvWriter(network);
         csvWriter.setFileName("demo.csv");
         Controller controller = new BackPropagationController(network, csvWriter);
