@@ -29,7 +29,7 @@ public class BackPropagationNetwork {
     private double[] targets;
 
     private int epoch; // Aantal leeriteraties
-    private static final int MAX_EPOCH = 100;
+    private static final int MAX_EPOCH = 10_000;
 
     private double[] errors; // Verschil tussen waarden van output cellen en target values na elke iteratie
     private double errorTreshold; // VOORLOPIG. If error < errorTreshold dan kan het leren stoppen
